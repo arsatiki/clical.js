@@ -10,8 +10,11 @@ def e(dim = None):
     >>> print e(123)
     e123
 
-    > >> e(1) ^ e(2)
+    >>> print e(1) ^ e(2)
     e12
+    
+    >>> print e(2) ^ e(1)
+    -e12
     
     >>> print e(12) + e(23)
     e12 + e23
@@ -23,17 +26,17 @@ def e(dim = None):
 
     dims = map(int, str(int(dim))) if dim else ()
     
-    s, base = parity(dims), E(*sorted(dims))
-    return Expr(Term(s, base))
+    return Expr(Term(1, E(dims)))
 
 class E(object):
     """
-    >>> E(1, 2) == E(1, 2)
+    >>> E((1, 2)) == E((1, 2))
     True
     """
 
-    def __init__(self, *dimensions):
-        self.dimensions = tuple(dimensions)
+    def __init__(self, dimensions):
+        self.sign = parity(dimensions)
+        self.dimensions = tuple(sorted(dimensions))
     
     @property
     def _strdim(self):
@@ -47,25 +50,34 @@ class E(object):
     
     def __xor__(self, other):
         """Outer product for bases"""
-        pass
+        if set(self.dimensions) & set(other.dimensions):
+            return E0
+        return E(self.dimensions + other.dimensions)
     
     def __eq__(self, other):
         return self.dimensions == other.dimensions
     
     def __hash__(self):
         return hash(self.dimensions)
+
+class Ezero(object):
+    sign = 0
+    def __nonzero__(self):
+        return False
+
+E0 = Ezero()
     
 class Term(object):
     """
-    >>> print Term(-1, E(1, 2))
+    >>> print Term(-1, E((1, 2)))
     -e12
-    >>> print Term(1, E(2, 3)) 
+    >>> print Term(1, E((2, 3))) 
     e23
-    >>> print Term(2, E(2, 3))
+    >>> print Term(2, E((2, 3)))
     2 * e23
     """
     def __init__(self, coefficient, base):
-        self.c = coefficient
+        self.c = coefficient * base.sign
         self.b = base
     
     def __str__(self):
@@ -77,10 +89,17 @@ class Term(object):
     
     def __nonzero__(self):
         return bool(self.c)
-    
+
+def basekey(b):
+    return len(b.dimensions), b.dimensions
+
+def termkey(t):
+    return basekey(t.b)
+
 class Expr(object):
     def __init__(self, *terms):
-        self.terms = filter(None, terms)
+        terms = filter(None, terms)
+        self.terms = sorted(terms, key=termkey)
 
     def __str__(self):
         if not self.terms:
@@ -106,6 +125,16 @@ class Expr(object):
             else:
                 d[t.b] = t.c
         return Expr(*[Term(c, b) for b, c in d.items()])
+
+    def __xor__(self, other):
+        """
+        >>> print (e(1) + e(2) + e(3)) ^ e(2)
+        e12 -e23
+        """
+        terms = [Term(s.c * o.c, s.b ^ o.b)
+                 for s in self.terms for o in other.terms]
+        return Expr(*terms)
+        
 
 if __name__ == "__main__":
 
