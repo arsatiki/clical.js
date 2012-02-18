@@ -99,6 +99,11 @@ def termkey(t):
 
 class Expr(object):
     def __init__(self, *terms):
+        """
+        >>> print e(21) + e(1)
+        e1 + e21
+        """
+
         terms = filter(None, terms)
         self.terms = sorted(terms, key=termkey)
 
