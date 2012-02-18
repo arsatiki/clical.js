@@ -109,9 +109,17 @@ class Expr(object):
         >>> print e(21) + e(1)
         e1 -e12
         """
-
+        terms = Expr.combine(terms)
         terms = filter(None, terms)
         self.terms = sorted(terms, key=termkey)
+
+    @staticmethod
+    def combine(terms):
+        reduced = defaultdict(int)
+        for term in terms:
+            reduced[term.b] += term.c
+        terms = [Term(c, b) for b, c in reduced.items()]
+        return terms
 
     def __str__(self):
         if not self.terms:
@@ -128,17 +136,17 @@ class Expr(object):
         return " ".join(items)
 
     def __add__(self, other):
-        d = defaultdict(int)
-        for t in self.terms + other.terms:
-            d[t.b] += t.c
-
-        terms = [Term(c, b) for b, c in d.items()]
+        terms = self.terms + other.terms
         return Expr(*terms)
 
     def __xor__(self, other):
         """
         >>> print (e(1) + e(2) + e(3)) ^ e(2)
         e12 -e23
+        
+        >>> v = e(1) + e(2)
+        >>> print v^v
+        0
         """
         terms = [Term(s.c * o.c, s.b ^ o.b)
                  for s in self.terms for o in other.terms]
