@@ -1,5 +1,6 @@
 import doctest
 from permutations import parity
+from collections import defaultdict
 
 """
 A simple tool to verify the operations of the GA items.
@@ -116,14 +117,10 @@ class Expr(object):
         return " ".join(items)
 
     def __add__(self, other):
-        d = {}
-        for t in self.terms:
-            d[t.b] = t.c
-        for t in other.terms:
-            if t.b in d:
-                d[t.b] += t.c
-            else:
-                d[t.b] = t.c
+        d = defaultdict(int)
+        for t in self.terms + other.terms:
+            d[t.b] += t.c
+
         return Expr(*[Term(c, b) for b, c in d.items()])
 
     def __xor__(self, other):
