@@ -80,7 +80,7 @@ class Term(object):
     >>> print Term(1, E((2, 3)))
     e23
     >>> print Term(2, E((2, 3)))
-    2 * e23
+    2 e23
     """
     def __init__(self, coefficient, base):
         sign, normbase = base.normalized()
@@ -92,7 +92,7 @@ class Term(object):
             return str(self.b)
         if self.c == -1:
             return "-" + str(self.b)
-        return "%d * %s" % (self.c, self.b)
+        return "%d %s" % (self.c, self.b)
 
     def __nonzero__(self):
         return bool(self.c)
@@ -147,7 +147,7 @@ class Expr(object):
     def __rmul__(self, coefficient):
         """
         >>> print 2 * e(1)
-        2 * e1
+        2 e1
         """
         terms = [Term(coefficient * t.c, t.b) for t in self.terms]
         return Expr(*terms)
