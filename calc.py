@@ -98,6 +98,9 @@ class Term(object):
         self.c = coefficient * sign
         self.b = normbase
 
+    def scaled(self, coefficient):
+        return Term(coefficient * self.c, self.b)
+
     def __str__(self):
         if self.c == 1:
             return str(self.b)
@@ -186,7 +189,7 @@ class Expr(object):
         >>> print 2 * e(1)
         2 e1
         """
-        terms = [Term(coefficient * t.c, t.b) for t in self.terms]
+        terms = [t.scaled(coefficient) for t in self.terms]
         return Expr(*terms)
 
 if __name__ == "__main__":
