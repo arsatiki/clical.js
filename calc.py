@@ -36,8 +36,12 @@ class E(object):
     """
 
     def __init__(self, dimensions):
-        self.sign = parity(dimensions)
-        self.dimensions = tuple(sorted(dimensions))
+        self.dimensions = tuple(dimensions)
+
+    def normalized(self):
+        sign = parity(self.dimensions)
+        dims = sorted(self.dimensions)
+        return sign, E(dims)
 
     @property
     def _strdim(self):
@@ -62,7 +66,8 @@ class E(object):
         return hash(self.dimensions)
 
 class Ezero(object):
-    sign = 0
+    def normalized(self):
+        return 0, self
     def __nonzero__(self):
         return False
 
@@ -78,8 +83,9 @@ class Term(object):
     2 * e23
     """
     def __init__(self, coefficient, base):
-        self.c = coefficient * base.sign
-        self.b = base
+        sign, normbase = base.normalized()
+        self.c = coefficient * sign
+        self.b = normbase
 
     def __str__(self):
         if self.c == 1:
@@ -101,7 +107,7 @@ class Expr(object):
     def __init__(self, *terms):
         """
         >>> print e(21) + e(1)
-        e1 + e21
+        e1 -e12
         """
 
         terms = filter(None, terms)
