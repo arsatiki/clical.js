@@ -98,6 +98,9 @@ class Term(object):
         self.c = coefficient * sign
         self.b = normbase
 
+    def key(self):
+        return len(self.b.dimensions), self.b.dimensions
+
     def scaled(self, coefficient):
         return Term(coefficient * self.c, self.b)
 
@@ -116,12 +119,6 @@ class Term(object):
     def __nonzero__(self):
         return bool(self.c)
 
-def basekey(b):
-    return len(b.dimensions), b.dimensions
-
-def termkey(t):
-    return basekey(t.b)
-
 class Expr(object):
     def __init__(self, *terms):
         """
@@ -130,7 +127,7 @@ class Expr(object):
         """
         terms = Expr.combine(terms)
         terms = filter(None, terms)
-        self.terms = sorted(terms, key=termkey)
+        self.terms = sorted(terms, key=Term.key)
 
     @staticmethod
     def combine(terms):
