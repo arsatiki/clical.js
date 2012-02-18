@@ -126,7 +126,8 @@ class Expr(object):
         for t in self.terms + other.terms:
             d[t.b] += t.c
 
-        return Expr(*[Term(c, b) for b, c in d.items()])
+        terms = [Term(c, b) for b, c in d.items()]
+        return Expr(*terms)
 
     def __xor__(self, other):
         """
