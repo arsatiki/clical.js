@@ -153,8 +153,13 @@ class Expr(object):
     def _multexpr(self, other):
         return self
 
-    def _multcoeff(other):
-        return self
+    def __rmul__(self, coefficient):
+        """
+        >>> print 2 * e(1)
+        2 * e1
+        """
+        terms = [Term(coefficient * t.c, t.b) for t in self.terms]
+        return Expr(*terms)
 
 if __name__ == "__main__":
 
