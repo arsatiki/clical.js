@@ -137,6 +137,24 @@ class Expr(object):
                  for s in self.terms for o in other.terms]
         return Expr(*terms)
 
+    def __mult__(self, other):
+        """
+        >>> print 2 * e(1)
+        2 * e1
+
+        >>> print (e(1) + 2 * e(2)) * e(3)
+        e13 + 2 * e23
+
+        """
+        if hasattr(other, "terms"):
+            return self._multexpr(other)
+        return self._multcoeff(other)
+
+    def _multexpr(self, other):
+        return self
+
+    def _multcoeff(other):
+        return self
 
 if __name__ == "__main__":
 
