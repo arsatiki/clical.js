@@ -29,6 +29,17 @@ def e(dim = None):
 
     return Expr(Term(1, E(dims)))
 
+def v(*coefficients):
+    """
+    >>> print v(2, 4, 6)
+    2 e1 + 4 e2 + 6 e3
+    
+    >>> print v(3, -3, 1) ^ v(4, 9, 2)
+    39 e12 + 2 e13 -15 e23
+    """
+    terms = [Term(c, E([k + 1])) for k, c in enumerate(coefficients)]
+    return Expr(*terms)
+
 class E(object):
     """
     >>> E((1, 2)) == E((1, 2))
