@@ -163,6 +163,24 @@ class Expr(object):
                  for s in self.terms for o in other.terms]
         return Expr(*terms)
 
+    def __mul__(self, other):
+        """
+        >> > print e(1) * e(1)
+        1
+        >> > print e(12) * e(1)
+        -e2
+        >> > print e(2) * e(12)
+        -e1
+        >> > print e(12) * e(12)
+        -1
+        
+        > >> print v(1, 2, 3) v(1, 3, 5))
+        22 + e12 + 2 e13 + e23
+        """
+        terms = [Term(s.c * o.c, s.b * o.b)
+                 for s in self.terms for o in other.terms]
+        return Expr(*terms)
+
     def __rmul__(self, coefficient):
         """
         >>> print 2 * e(1)
