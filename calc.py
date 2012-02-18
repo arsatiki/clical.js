@@ -27,7 +27,7 @@ def e(dim = None):
 
     dims = map(int, str(int(dim))) if dim else ()
 
-    return Expr(Term(1, E(dims)))
+    return Expr(Term(1, dims))
 
 def v(*coefficients):
     """
@@ -37,7 +37,7 @@ def v(*coefficients):
     >>> print v(3, -3, 1) ^ v(4, 9, 2)
     39 e12 + 2 e13 -15 e23
     """
-    terms = [Term(c, E([k + 1])) for k, c in enumerate(coefficients)]
+    terms = [Term(c, [k + 1]) for k, c in enumerate(coefficients)]
     return Expr(*terms)
 
 class E(object):
@@ -77,6 +77,7 @@ class E(object):
         return hash(self.dimensions)
 
 class Ezero(object):
+    dimensions = ()
     def normalized(self):
         return 0, self
     def __nonzero__(self):
@@ -86,14 +87,15 @@ E0 = Ezero()
 
 class Term(object):
     """
-    >>> print Term(-1, E((1, 2)))
+    >>> print Term(-1, (1, 2))
     -e12
-    >>> print Term(1, E((2, 3)))
+    >>> print Term(1, (2, 3))
     e23
-    >>> print Term(2, E((2, 3)))
+    >>> print Term(2, (2, 3))
     2 e23
     """
-    def __init__(self, coefficient, base):
+    def __init__(self, coefficient, dims):
+        base = E(dims)
         sign, normbase = base.normalized()
         self.c = coefficient * sign
         self.b = normbase
@@ -102,12 +104,14 @@ class Term(object):
         return len(self.b.dimensions), self.b.dimensions
 
     def scaled(self, coefficient):
-        return Term(coefficient * self.c, self.b)
+        return Term(coefficient * self.c, self.b.dimensions)
 
     def __xor__(self, other):
         coef = self.c * other.c
         base = self.b ^ other.b
-        return Term(coef, base)
+        if base is E0:
+            coef = 0
+        return Term(coef, base.dimensions)
 
     def __mul__(self, other):
         return self
@@ -137,7 +141,7 @@ class Expr(object):
         reduced = defaultdict(int)
         for term in terms:
             reduced[term.b] += term.c
-        terms = [Term(c, b) for b, c in reduced.items()]
+        terms = [Term(c, b.dimensions) for b, c in reduced.items()]
         return terms
 
     def __str__(self):
