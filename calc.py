@@ -120,7 +120,7 @@ class Term(object):
         return "%d %s" % (self.c, self.b)
 
     def __nonzero__(self):
-        return bool(self.c)
+        return self.c != 0
 
 class Expr(object):
     def __init__(self, *terms):
