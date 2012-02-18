@@ -109,6 +109,9 @@ class Term(object):
         base = self.b ^ other.b
         return Term(coef, base)
 
+    def __mul__(self, other):
+        return self
+
     def __str__(self):
         if self.c == 1:
             return str(self.b)
@@ -181,8 +184,7 @@ class Expr(object):
         > >> print v(1, 2, 3) v(1, 3, 5))
         22 + e12 + 2 e13 + e23
         """
-        terms = [Term(s.c * o.c, s.b * o.b)
-                 for s in self.terms for o in other.terms]
+        terms = [s * o for s in self.terms for o in other.terms]
         return Expr(*terms)
 
     def __rmul__(self, coefficient):
