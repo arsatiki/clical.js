@@ -101,6 +101,11 @@ class Term(object):
     def scaled(self, coefficient):
         return Term(coefficient * self.c, self.b)
 
+    def __xor__(self, other):
+        coef = self.c * other.c
+        base = self.b ^ other.b
+        return Term(coef, base)
+
     def __str__(self):
         if self.c == 1:
             return str(self.b)
@@ -162,8 +167,7 @@ class Expr(object):
         >>> print v^v
         0
         """
-        terms = [Term(s.c * o.c, s.b ^ o.b)
-                 for s in self.terms for o in other.terms]
+        terms = [s ^ o for s in self.terms for o in other.terms]
         return Expr(*terms)
 
     def __mul__(self, other):
