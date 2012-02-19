@@ -159,6 +159,10 @@ class Expr(object):
         return " ".join(items)
 
     def __add__(self, other):
+        """
+        >> > print 1 + e(1)
+        1 + e1
+        """
         terms = self.terms + other.terms
         return Expr(*terms)
 
