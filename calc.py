@@ -9,11 +9,11 @@ A simple tool to verify the operations of the GA items.
 def e(dim = None):
     """
     e(integer) -> A single-term expression.
-    
+
     The indices of the base are extracted from the base-ten representation.
     This naturally limits the dimensions to less than 10, which is more
     than enough for real-world applications.
-    
+
     >>> print e(123)
     e123
 
@@ -38,10 +38,10 @@ def e(dim = None):
 def v(*coefficients):
     """
     v(c_1, c_2, c_3, ...) -> a vector expression with coefficients c_k
-    
+
     >>> print v(2, 4, 6)
     2 e1 + 4 e2 + 6 e3
-    
+
     >>> print v(3, -3, 1) ^ v(4, 9, 2)
     39 e12 + 2 e13 -15 e23
     """
@@ -161,7 +161,7 @@ class Expr(object):
         """
         >>> print (e(1) + e(2) + e(3)) ^ e(2)
         e12 -e23
-        
+
         >>> v = e(1) + e(2)
         >>> print v^v
         0
@@ -179,7 +179,7 @@ class Expr(object):
         -e1
         >> > print e(12) * e(12)
         -1
-        
+
         > >> print v(1, 2, 3) * v(1, 3, 5))
         22 + e12 + 2 e13 + e23
         """
