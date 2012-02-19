@@ -104,6 +104,14 @@ class Term(object):
     def scaled(self, coefficient):
         return Term(coefficient * self.c, self.b.dimensions)
 
+    @staticmethod
+    def combine(terms):
+        reduced = defaultdict(int)
+        for term in terms:
+            reduced[term.b] += term.c
+        terms = [Term(c, b.dimensions) for b, c in reduced.items()]
+        return terms
+
     def __xor__(self, other):
         coef = self.c * other.c
         base = self.b ^ other.b
@@ -131,17 +139,9 @@ class Expr(object):
         >>> print e(21) + e(1)
         e1 -e12
         """
-        terms = Expr.combine(terms)
+        terms = Term.combine(terms)
         terms = filter(None, terms)
         self.terms = sorted(terms, key=Term.key)
-
-    @staticmethod
-    def combine(terms):
-        reduced = defaultdict(int)
-        for term in terms:
-            reduced[term.b] += term.c
-        terms = [Term(c, b.dimensions) for b, c in reduced.items()]
-        return terms
 
     def __str__(self):
         if not self.terms:
