@@ -8,6 +8,12 @@ A simple tool to verify the operations of the GA items.
 
 def e(dim = None):
     """
+    e(integer) -> A single-term expression.
+    
+    The indices of the base are extracted from the base-ten representation.
+    This naturally limits the dimensions to less than 10, which is more
+    than enough for real-world applications.
+    
     >>> print e(123)
     e123
 
@@ -31,6 +37,8 @@ def e(dim = None):
 
 def v(*coefficients):
     """
+    v(c_1, c_2, c_3, ...) -> a vector expression with coefficients c_k
+    
     >>> print v(2, 4, 6)
     2 e1 + 4 e2 + 6 e3
     
