@@ -117,6 +117,14 @@ class Term(object):
 
         return cs + bs
 
+    def __repr__(self):
+        """
+        >>> Term(1, (1, 2))
+        Term(1, (1, 2))
+
+        """
+        return "Term(%r, %r)" % (self.coefficient, self.dimensions)
+
     def __nonzero__(self):
         return self.coefficient != 0
 
