@@ -173,6 +173,20 @@ class Expr(object):
 
     __radd__ = __add__
 
+    def __sub__(self, other):
+        """
+        >>> print e(1) - 1
+        -1 + e1
+        """
+        return self + -1 * other
+
+    def __rsub__(self, other):
+        """
+        >>> print 1 - e(1)
+        1 - e1
+        """
+        return -1 * self + other
+
     def __xor__(self, other):
         """
         >>> print (e(1) + e(2) + e(3)) ^ e(2)
