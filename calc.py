@@ -6,6 +6,34 @@ from collections import defaultdict
 A simple tool to verify the operations of the GA items.
 """
 
+def jig(a, b):
+    """
+    >>> jig('1', '1')
+    (1, [])
+    >>> jig('12', '1')
+    (-1, ['2'])
+    >>> jig('12', '2')
+    (1, ['1'])
+    >>> jig('1', '12')
+    (1, ['2'])
+    >>> jig('2', '12')
+    (-1, ['1'])
+    
+    """
+    # Assumptions:
+    # elements are unique per list
+    out = list(a)
+    sign = 1
+    for x in b:
+        if x not in out:
+            out.append(x)
+        else:
+            swaps = len(out) - out.index(x) - 1
+            sign *= (-1) ** swaps
+            out.remove(x)
+    return sign, out
+
+
 def e(dim = None):
     """
     e(integer) -> A single-term expression.
