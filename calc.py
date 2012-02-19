@@ -159,7 +159,7 @@ class Expr(object):
         >> > print e(12) * e(12)
         -1
         
-        > >> print v(1, 2, 3) v(1, 3, 5))
+        > >> print v(1, 2, 3) * v(1, 3, 5))
         22 + e12 + 2 e13 + e23
         """
         terms = [s * o for s in self.terms for o in other.terms]
