@@ -168,11 +168,16 @@ class Expr(object):
 
     def __add__(self, other):
         """
-        >> > print 1 + e(1)
-        1 + e1
+        >>> print 2 + e(1)
+        2 e + e1
         """
+        if not hasattr(other, "terms"):
+            return self + Expr(Term(other, ()))
+        
         terms = self.terms + other.terms
         return Expr(*terms)
+
+    __radd__ = __add__
 
     def __xor__(self, other):
         """
