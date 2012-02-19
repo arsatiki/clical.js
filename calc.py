@@ -43,7 +43,7 @@ def v(*coefficients):
     2 e1 + 4 e2 + 6 e3
 
     >>> print v(3, -3, 1) ^ v(4, 9, 2)
-    39 e12 + 2 e13 -15 e23
+    39 e12 + 2 e13 - 15 e23
     """
     terms = [Term(c, [k + 1]) for k, c in enumerate(coefficients)]
     return Expr(*terms)
@@ -95,7 +95,7 @@ class Term(object):
     def __str__(self):
         """
         Scalars: coeff always shown, plus omitted, minus next to digit
-        First component:
+        First component and stand-alone printing:
             1: sign and coeff omitted: e1 ...
             -1: sign next to base, coeff omitted: -e2
             other: plus omitted:  2 e3    -4 e1
@@ -112,7 +112,7 @@ class Term(object):
 
         SIGN = {1: '', -1: '-'}
 
-        cs = SIGN.get(self.coefficient, '%d ' % self.coefficient)
+        cs = SIGN.get(self.coefficient, '%s ' % self.coefficient)
         bs = 'e' + ''.join(map(str, self.dimensions))
 
         return cs + bs
@@ -124,25 +124,25 @@ class Expr(object):
     def __init__(self, *terms):
         """
         >>> print e(21) + e(1)
-        e1 -e12
+        e1 - e12
         """
         terms = Term.combine(terms)
         terms = filter(None, terms)
         self.terms = sorted(terms, key=Term.key)
 
+    @staticmethod
+    def _mangle(termstrings):
+        termstrings = iter(termstrings)
+        yield termstrings.next()
+        for t in termstrings:
+            yield '- ' + t[1:] if t.startswith('-') else '+ ' + t
+
     def __str__(self):
         if not self.terms:
             return '0'
 
-        terms = iter(self.terms)
-        items = [str(terms.next())]
-
-        for t in terms:
-            # TODO: Move t.c outta here
-            sign = "+ " if t.coefficient > 0 else ""
-            items.append(sign + str(t))
-
-        return " ".join(items)
+        termstrings = map(str, self.terms)
+        return " ".join(Expr._mangle(termstrings))
 
     def __add__(self, other):
         """
@@ -160,7 +160,7 @@ class Expr(object):
     def __xor__(self, other):
         """
         >>> print (e(1) + e(2) + e(3)) ^ e(2)
-        e12 -e23
+        e12 - e23
 
         >>> v = e(1) + e(2)
         >>> print v^v
