@@ -62,16 +62,6 @@ class E(object):
         dims = sorted(self.dimensions)
         return sign, E(dims)
 
-    @property
-    def _strdim(self):
-        return map(str, self.dimensions)
-
-    def __str__(self):
-        return "e" + ''.join(self._strdim)
-
-    def __repr__(self):
-        return "E(%s)" % ', '.join(self._strdim)
-
     def __xor__(self, other):
         """Outer product for bases"""
         if set(self.dimensions) & set(other.dimensions):
@@ -125,11 +115,12 @@ class Term(object):
         return self
 
     def __str__(self):
-        if self.c == 1:
-            return str(self.b)
-        if self.c == -1:
-            return "-" + str(self.b)
-        return "%d %s" % (self.c, self.b)
+        SIGN = {1: '', -1: '-'}
+        
+        cs = SIGN.get(self.c, '%d ' % self.c)
+        bs = 'e' + ''.join(map(str, self.b.dimensions))
+        
+        return cs + bs
 
     def __nonzero__(self):
         return self.c != 0
