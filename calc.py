@@ -48,41 +48,6 @@ def v(*coefficients):
     terms = [Term(c, [k + 1]) for k, c in enumerate(coefficients)]
     return Expr(*terms)
 
-class E(object):
-    """
-    >>> E((1, 2)) == E((1, 2))
-    True
-    """
-
-    def __init__(self, dimensions):
-        self.dimensions = tuple(dimensions)
-
-    def normalized(self):
-        sign = parity(self.dimensions)
-        dims = sorted(self.dimensions)
-        return sign, E(dims)
-
-    def __xor__(self, other):
-        """Outer product for bases"""
-        if set(self.dimensions) & set(other.dimensions):
-            return E0
-        return E(self.dimensions + other.dimensions)
-
-    def __eq__(self, other):
-        return self.dimensions == other.dimensions
-
-    def __hash__(self):
-        return hash(self.dimensions)
-
-class Ezero(object):
-    dimensions = ()
-    def normalized(self):
-        return 0, self
-    def __nonzero__(self):
-        return False
-
-E0 = Ezero()
-
 class Term(object):
     """
     >>> print Term(-1, (1, 2))
@@ -93,31 +58,32 @@ class Term(object):
     2 e23
     """
     def __init__(self, coefficient, dims):
-        base = E(dims)
-        sign, normbase = base.normalized()
-        self.c = coefficient * sign
-        self.b = normbase
+        self.coefficient = coefficient * parity(dims)
+        self.dimensions = tuple(sorted(dims))
 
     def key(self):
-        return len(self.b.dimensions), self.b.dimensions
+        return len(self.dimensions), self.dimensions
 
     def scaled(self, coefficient):
-        return Term(coefficient * self.c, self.b.dimensions)
+        return Term(coefficient * self.coefficient, self.dimensions)
 
     @staticmethod
     def combine(terms):
         reduced = defaultdict(int)
         for term in terms:
-            reduced[term.b] += term.c
-        terms = [Term(c, b.dimensions) for b, c in reduced.items()]
+            reduced[term.dimensions] += term.coefficient
+        terms = [Term(c, d) for d, c in reduced.items()]
         return terms
 
     def __xor__(self, other):
-        coef = self.c * other.c
-        base = self.b ^ other.b
-        if base is E0:
-            coef = 0
-        return Term(coef, base.dimensions)
+        """Outer product"""
+        if set(self.dimensions) & set(other.dimensions):
+            return Term(0, ())
+
+        coef = self.coefficient * other.coefficient
+        dims = self.dimensions + other.dimensions
+
+        return Term(coef, dims)
 
     def __mul__(self, other):
         return self
@@ -125,13 +91,13 @@ class Term(object):
     def __str__(self):
         SIGN = {1: '', -1: '-'}
         
-        cs = SIGN.get(self.c, '%d ' % self.c)
-        bs = 'e' + ''.join(map(str, self.b.dimensions))
+        cs = SIGN.get(self.coefficient, '%d ' % self.coefficient)
+        bs = 'e' + ''.join(map(str, self.dimensions))
         
         return cs + bs
 
     def __nonzero__(self):
-        return self.c != 0
+        return self.coefficient != 0
 
 class Expr(object):
     def __init__(self, *terms):
@@ -152,7 +118,7 @@ class Expr(object):
 
         for t in terms:
             # TODO: Move t.c outta here
-            sign = "+ " if t.c > 0 else ""
+            sign = "+ " if t.coefficient > 0 else ""
             items.append(sign + str(t))
 
         return " ".join(items)
