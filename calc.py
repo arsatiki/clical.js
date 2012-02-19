@@ -152,6 +152,14 @@ class Expr(object):
         termstrings = map(str, self.terms)
         return " ".join(Expr._mangle(termstrings))
 
+    def __repr__(self):
+        """
+        >>> 1 + e(2)
+        Expr(Term(1, ()), Term(1, (2,)))
+        """
+        termreprs = ', '.join(repr(t) for t in self.terms)
+        return "Expr(%s)" % termreprs
+
     def __add__(self, other):
         """
         >>> print 1 + e(1)
