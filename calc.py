@@ -67,6 +67,10 @@ class Term(object):
     def scaled(self, coefficient):
         return Term(coefficient * self.coefficient, self.dimensions)
 
+    @property
+    def isscalar(self):
+        return self.dimensions == ()
+
     @staticmethod
     def combine(terms):
         reduced = defaultdict(int)
@@ -89,11 +93,28 @@ class Term(object):
         return self
 
     def __str__(self):
+        """
+        Scalars: coeff always shown, plus omitted, minus next to digit
+        First component:
+            1: sign and coeff omitted: e1 ...
+            -1: sign next to base, coeff omitted: -e2
+            other: plus omitted:  2 e3    -4 e1
+
+        Rest:
+            1: sign space base, coeff omitted: ... + e12
+            -1: sign space base, coeff omitted: ... - e12
+            +k: ... + 2 e12 ...
+            -k: ... - 2 e12 ...
+        """
+
+        if self.isscalar:
+            return str(self.coefficient)
+
         SIGN = {1: '', -1: '-'}
-        
+
         cs = SIGN.get(self.coefficient, '%d ' % self.coefficient)
         bs = 'e' + ''.join(map(str, self.dimensions))
-        
+
         return cs + bs
 
     def __nonzero__(self):
@@ -125,12 +146,12 @@ class Expr(object):
 
     def __add__(self, other):
         """
-        >>> print 2 + e(1)
-        2 e + e1
+        >>> print 1 + e(1)
+        1 + e1
         """
         if not hasattr(other, "terms"):
             return self + Expr(Term(other, ()))
-        
+
         terms = self.terms + other.terms
         return Expr(*terms)
 
