@@ -90,7 +90,10 @@ class Term(object):
         return Term(coef, dims)
 
     def __mul__(self, other):
-        return self
+        sign, dims = jig(self.dimensions, other.dimensions)
+        coef = sign * self.coefficient * other.coefficient
+
+        return Term(coef, dims)
 
     def __str__(self):
         """
@@ -201,13 +204,13 @@ class Expr(object):
 
     def __mul__(self, other):
         """
-        >> > print e(1) * e(1)
+        >>> print e(1) * e(1)
         1
-        >> > print e(12) * e(1)
+        >>> print e(12) * e(1)
         -e2
-        >> > print e(2) * e(12)
+        >>> print e(2) * e(12)
         -e1
-        >> > print e(12) * e(12)
+        >>> print e(12) * e(12)
         -1
 
         > >> print v(1, 2, 3) * v(1, 3, 5))
