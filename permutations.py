@@ -29,5 +29,33 @@ def parity(p):
     return 1 if neven % 2 == 0 else -1
 
 
+def jig(a, b):
+    """
+    >>> jig('1', '1')
+    (1, [])
+    >>> jig('12', '1')
+    (-1, ['2'])
+    >>> jig('12', '2')
+    (1, ['1'])
+    >>> jig('1', '12')
+    (1, ['2'])
+    >>> jig('2', '12')
+    (-1, ['1'])
+    
+    """
+    # Assumptions:
+    # elements are unique per list
+    out = list(a)
+    sign = 1
+    for x in b:
+        if x not in out:
+            out.append(x)
+        else:
+            swaps = len(out) - out.index(x) - 1
+            sign *= (-1) ** swaps
+            out.remove(x)
+    return sign, out
+
+
 if __name__ == '__main__':
     doctest.testmod()
