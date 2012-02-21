@@ -4,3 +4,8 @@ Target environment is HTML5 compatible browser.
 
 Initially, though, some prototyping is done with Python.
 
+TODO
+----
+
+- Build a JS parser with PEG.js
+- port algebra proto into JS
