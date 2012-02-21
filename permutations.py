@@ -43,21 +43,27 @@ def jig(a, b):
     (1, ['2'])
     >>> jig('2', '12')
     (-1, ['1'])
+    >>> jig('12', '12')
+    (-1, [])
     
     """
-    # Assumptions:
-    # elements are unique per list
-    out = list(a)
+    c = list(a+b)
     sign = 1
-    for x in b:
-        if x not in out:
-            out.append(x)
+    d = {} # dim -> idx
+    r = {} # dim -> removal count
+    removals = 0
+    pseudoidx = 0
+    for x in c:
+        if x not in d:
+            d[x] = pseudoidx
+            pseudoidx += 1
         else:
-            swaps = len(out) - out.index(x) - 1
-            sign *= (-1) ** swaps
-            out.remove(x)
-    return sign, out
-
+            sign *= (-1) ** ((pseudoidx - d[x]) -1)
+            del d[x]
+            removals += 1
+    # Reassemble the pieces
+    out = [x for x in c if x in d]
+    return int(sign), out
 
 if __name__ == '__main__':
     doctest.testmod()
