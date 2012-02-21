@@ -1,5 +1,7 @@
 import doctest
 
+# TODO: 
+# Give p and p-target, send sorted(p) as an argument?
 def parity(p):
     """Returns the parity of the permutation
 
