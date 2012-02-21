@@ -43,7 +43,8 @@ def jig(a, b):
     (1, ['2'])
     >>> jig('2', '12')
     (-1, ['1'])
-    
+    >>> jig('12', '21')
+    (1, [])
     """
     # Assumptions:
     # elements are unique per list
