@@ -18,6 +18,7 @@
   "private": true,
   "optionalDependencies": {},
   "scripts": {
-    "test": "nodeunit test"
-  }
+    "test": "nodeunit --reporter minimal test"
+  },
+  "main": "./js/main.js"
 }

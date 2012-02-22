@@ -11,7 +11,7 @@ The development environment for the Javascript libraries requires Node and
 npm. After installing those, run
 
     npm link
-    npm test
+    npm -s test (or npm config set loglevel silent)
 
 Tests go to tests subdirectory.
 
