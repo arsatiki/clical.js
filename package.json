@@ -2,6 +2,7 @@
   "author": "Antti Rasinen <ars@iki.fi>",
   "name": "clical",
   "description": "A reimplementation of clical. Node is used for the development infrastructure.",
+  "homepage": "http://arsatiki.github.com/clical.js/",
   "version": "0.0.0",
   "repository": {
     "type": "git",
