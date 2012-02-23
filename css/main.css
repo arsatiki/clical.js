@@ -1,0 +1,10 @@
+.vector {
+	font-style: italic;
+	font-size: 120%;
+	padding: 0 0.2em;
+}
+.vector sub {
+	font-style: normal;
+	vertical-align: sub;
+	font-size: 75%;
+}
