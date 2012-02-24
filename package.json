@@ -19,7 +19,8 @@
   "private": true,
   "optionalDependencies": {},
   "scripts": {
-    "test": "nodeunit --reporter minimal test"
+    "test": "nodeunit --reporter minimal test",
+    "parser": "pegjs clical.pegjs js/parser.js"
   },
   "main": "./js/main.js"
 }
