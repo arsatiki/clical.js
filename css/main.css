@@ -1,3 +1,11 @@
+.user_input {
+	display: block;
+}
+
+.answer {
+	display:block;
+}
+
 .vector {
 	font-style: italic;
 	font-size: 120%;
