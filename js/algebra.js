@@ -76,9 +76,15 @@ function v() {
 	return new Multivector(terms);
 }
 
+function s(coefficient) {
+	var term = new Term(coefficient, []);
+	return new Multivector([term]);
+}
+
 var algebra = {
 	Multivector: Multivector,
-	v: v
+	v: v,
+	s: s
 };
 
 

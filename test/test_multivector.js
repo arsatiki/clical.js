@@ -7,7 +7,7 @@ exports.testv = function(test) {
 	assert.ok(v instanceof algebra.Multivector);
 	assert.equal(v.terms.length, 3, "correct number of terms");
 	test.done();
-}
+};
 
 exports.testConstructorFiltering = function(test) {
 	var v = algebra.v(1, 0, 1);
@@ -31,4 +31,12 @@ exports.testSum = function(test) {
 	assert.equal(vs.terms[1].coefficient, 5, 'second coeff correct');
 	
 	test.done();
-}
+};
+
+exports.testScalarSum = function(test) {
+	var s1 = algebra.s(1),
+	    s2 = algebra.s(2),
+	    ss = s1.plus(s2);
+	assert.equal(ss.terms[0].coefficient, 3, '1 + 2 = 3');
+	test.done();
+};
