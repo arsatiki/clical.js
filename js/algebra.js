@@ -1,12 +1,12 @@
-//var exports = exports || {};
-//var require = require || function() {};
-//var permutations = require("./permutations.js");
+var exports = exports || {};
+var require = require || function() {};
+var permutations = permutations || require("./permutations.js");
 
 var Term = function (coefficient, dimensions) {
 	this.coefficient = coefficient;
 	this.dimensions = dimensions.slice(0);
 	
-	var n = swaps(this.dimensions);
+	var n = permutations.swaps(this.dimensions);
 	this.coefficient *= n;
 }
 
