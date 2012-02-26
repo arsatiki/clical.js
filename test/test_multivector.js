@@ -40,3 +40,16 @@ exports.testScalarSum = function(test) {
 	assert.equal(ss.terms[0].coefficient, 3, '1 + 2 = 3');
 	test.done();
 };
+
+exports.testSort = function(test) {
+	// TODO: This can be improved once we can build 2-vectors
+	var mv = algebra.v(2, 3, 4).plus(algebra.s(1)),
+		expected = [1, 2, 3, 4],
+		k;
+	
+	for (k = 0; k < 4; k++)
+		test.equal(mv.terms[k].coefficient, expected[k], "coeff" + k);
+
+	test.expect(4);
+	test.done();
+};

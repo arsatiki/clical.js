@@ -38,6 +38,19 @@ Term.combine_bases = function (terms) {
 	return combined;
 };
 
+Term.cmp = function(a, b) {
+	var diff = a.dimensions.length - b.dimensions.length;
+	var k;
+
+	if (diff)
+		return diff;
+	for (k = 0; k < a.dimensions.length; k++) {
+		diff = a.dimensions[k] - b.dimensions[k];
+		if (diff)
+			return diff;
+	}
+	return 0;
+};
 
 
 function Multivector(terms) {
@@ -49,9 +62,7 @@ function Multivector(terms) {
 		if (!terms[k].vanishes())
 			this.terms.push(terms[k]);
 
-	// TODO: Cleanup
-	// Sort by ascending term length and then lexically
-	
+	this.terms.sort(Term.cmp);
 }
 
 Multivector.prototype.toString = function() {
@@ -69,7 +80,7 @@ Multivector.prototype.plus = function(other) {
 function v() {
 	var coefficients = Array.prototype.slice.call(arguments);
 	var k, terms = [];
-	
+
 	for (k = 0; k < coefficients.length; k++)
 		terms.push(new Term(coefficients[k], [k + 1]));
 
