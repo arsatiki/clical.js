@@ -24,5 +24,9 @@ Development docs
 TODO
 ----
 
-- Build a JS parser with PEG.js
-- port algebra proto into JS
+- Add multivectors into the parser
+- Add multivector formatting for the output
+- Sort multivector components nicely
+- improve algebra proto JS
+  - wedge product
+  - geometric product
