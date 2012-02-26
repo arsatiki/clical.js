@@ -26,6 +26,8 @@ Term.combine_bases = function (terms) {
 		value = key in coeffs? coeffs[key]: 0;
 		coeffs[key] = value + terms[k].coefficient;
 	}
+	// The hash converts the keys into strings. Can not use for .. in
+	// What is this bullshit.
 	for (k = 0; k < terms.length; k++) {
 		key = terms[k].dimensions;
 		if (key in coeffs) {
