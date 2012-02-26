@@ -16,16 +16,40 @@ Term.prototype.toString = function() {
 
 Term.prototype.vanishes = function() { return this.coefficient == 0; };
 
+Term.combine_bases = function (terms) {
+	var k, coeffs = {};
+	var key, value;
+	var combined = [];
+
+	for (k = 0; k < terms.length; k++) {
+		key = terms[k].dimensions;
+		value = key in coeffs? coeffs[key]: 0;
+		coeffs[key] = value + terms[k].coefficient;
+	}
+	for (k = 0; k < terms.length; k++) {
+		key = terms[k].dimensions;
+		if (key in coeffs) {
+			combined.push(new Term(coeffs[key], key));
+			delete coeffs[key];
+		}
+	}
+	return combined;
+};
+
+
+
 function Multivector(terms) {
 	var k;
 	this.terms = [];
+	terms = Term.combine_bases(terms);
 
-	// TODO: Cleanup
-	// Combine duplicate bases
 	for (k = 0; k < terms.length; k++)
 		if (!terms[k].vanishes())
 			this.terms.push(terms[k]);
+
+	// TODO: Cleanup
 	// Sort by ascending term length and then lexically
+	
 }
 
 Multivector.prototype.toString = function() {
@@ -35,6 +59,10 @@ Multivector.prototype.toString = function() {
 
 	return items.join(" + ");
 };
+
+Multivector.prototype.plus = function(other) {
+	return new Multivector(this.terms.concat(other.terms));
+}
 
 function v() {
 	var coefficients = Array.prototype.slice.call(arguments);

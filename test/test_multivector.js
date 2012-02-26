@@ -21,3 +21,14 @@ exports.testToString = function(test) {
 	test.done();
 }
 
+exports.testSum = function(test) {
+	var v1 = algebra.v(1, 2, 3),
+	    v2 = algebra.v(2, 3, -3),
+		vs = v1.plus(v2);
+	
+	assert.equal(vs.terms.length, 2, 'combine terms');
+	assert.equal(vs.terms[0].coefficient, 3, 'first coeff correct');
+	assert.equal(vs.terms[1].coefficient, 5, 'second coeff correct');
+	
+	test.done();
+}
