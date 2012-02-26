@@ -26,7 +26,6 @@ TODO
 
 - Add multivectors into the parser
 - Add multivector formatting for the output
-- Sort multivector components nicely
 - improve algebra proto JS
   - wedge product
   - geometric product
