@@ -14,10 +14,18 @@ Term.prototype.toString = function() {
 	return this.coefficient + " e" + this.dimensions.join("");
 };
 
+Term.prototype.vanishes = function() { return this.coefficient == 0; };
+
 function Multivector(terms) {
-	this.terms = terms;
+	var k;
+	this.terms = [];
 
 	// TODO: Cleanup
+	// Combine duplicate bases
+	for (k = 0; k < terms.length; k++)
+		if (!terms[k].vanishes())
+			this.terms.push(terms[k]);
+	// Sort by ascending term length and then lexically
 }
 
 Multivector.prototype.toString = function() {
