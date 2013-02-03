@@ -23,7 +23,6 @@ function tokenize(input) {
 	
 	do {
 		t = getNextToken();
-		console.log(t);
 		tokens.push(t);
 	} while(t.name != "EOF");
 	
