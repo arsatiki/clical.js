@@ -6,8 +6,8 @@ var lexer = (function(){
 		return {name: name, regex: anchored};
 	};
 	
-	var makeToken = function(name, value) {
-		return {name: name, value: value};
+	var makeToken = function(name, value, pos) {
+		return {name: name, value: value, pos: pos};
 	};
 
 	var NO_MATCH = {value: null, found: false,
@@ -23,7 +23,8 @@ var lexer = (function(){
 	};
 	
 	var patterns = [
-		makePattern("IDENTIFIER", /[a-z][a-z0-9]*/),
+		makePattern("WHITESPACE", /\s+/),
+		makePattern("IDENTIFIER", /[a-z]\w*/),
 		makePattern("OPEN_PAREN", /\(/),
 		makePattern("CLOSE_PAREN", /\)/),
 		makePattern("NUMBER", /\d+/),
@@ -42,15 +43,17 @@ var lexer = (function(){
 		// EOF and ERROR defined below
 	];
 	
-	var getNextToken = function(input) {
+	var getTokenAt = function(input, pos) {
 		var k;
 		var longest_match = NO_MATCH;
 		
-		if (!input)
-			return makeToken("EOF", "");
+		if (pos >= input.length)
+			return makeToken("EOF", "", pos);
+
+		var input_tail = input.substr(pos);
 		
 		for (k = 0; k < patterns.length; k++) {
-			m = match(patterns[k], input);
+			m = match(patterns[k], input_tail);
 			if (!m.found)
 				continue;
 				
@@ -60,20 +63,21 @@ var lexer = (function(){
 		}
 		
 		if (longest_match == NO_MATCH)
-			return makeToken("ERROR", input);
+			return makeToken("ERROR", input_tail, pos);
 		
 		return makeToken(longest_match.pattern.name,
-			         longest_match.value);
+		                 longest_match.value, pos);
 	};
 	
 	var _lexer = function(input) {
 		var tokens = [];
 		var t;
+		var pos = 0;
 		do {
-			input = input.trimLeft();
-			t = getNextToken(input);
-			tokens.push(t);
-			input = input.substr(t.value.length);
+			t = getTokenAt(input, pos);
+			pos = pos + t.value.length;
+			if (t.name != "WHITESPACE")
+				tokens.push(t);
 		} while (t.name != "EOF");
 
 		return tokens;

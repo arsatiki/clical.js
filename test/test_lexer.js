@@ -47,3 +47,12 @@ exports.testAssignment = function(test) {
 	assert.equal(flattenTokens(t), expected);
 	test.done();
 };
+
+exports.testPosition = function(test) {
+	var t = lexer.lexer("    a");
+	assert.equal(t[0].pos, 4);
+	assert.equal(t[0].value, "a");
+	assert.equal(t[1].pos, 5);
+	assert.equal(t[1].name, "EOF");
+	test.done();
+}
