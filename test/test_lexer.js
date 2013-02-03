@@ -22,7 +22,7 @@ exports.testSimple = function(test) {
 	test.done();
 };
 
-exports.testSimple = function(test) {
+exports.testOps = function(test) {
 	var t = lexer.lexer(" foo / (a + b) ");
 	var expected = ["IDENTIFIER foo", "OP_DIV /", "OPEN_PAREN (",
 	                "IDENTIFIER a", "OP_PLUS +", "IDENTIFIER b",
@@ -30,3 +30,12 @@ exports.testSimple = function(test) {
 	assert.equal(flattenTokens(t), expected);
 	test.done();
 };
+
+exports.testError = function(test) {
+	var t = lexer.lexer("5 + #3");
+	var expected = ["NUMBER 5", "OP_PLUS +", "ERROR #3",
+	                "EOF"].join(", ");
+	assert.equal(flattenTokens(t), expected);
+	test.done();
+};
+

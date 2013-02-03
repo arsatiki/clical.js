@@ -9,12 +9,17 @@ var lexer = (function(){
 	var makeToken = function(name, value) {
 		return {name: name, value: value};
 	};
-	
+
+	var NO_MATCH = {value: null, found: false,
+	                length: 0, pattern: /$/};
 	var match = function(pattern, input) {
 		var r = pattern.regex;
 		var m = r.exec(input);
-		if (m) return m[0];
-		return null;
+		if (!m) 
+			return NO_MATCH;
+
+		return {value: m[0], found: true,
+			length: m[0].length, pattern: pattern};
 	};
 	
 	var patterns = [
@@ -38,30 +43,26 @@ var lexer = (function(){
 	
 	var getNextToken = function(input) {
 		var k;
-		var longest_match = "";
-		var matching_pattern = null;
-		var p;
+		var longest_match = NO_MATCH;
 		
 		if (!input)
 			return makeToken("EOF", "");
 		
 		for (k = 0; k < patterns.length; k++) {
-			p = patterns[k];
-			m = match(p, input);
-			if (!m)
+			m = match(patterns[k], input);
+			if (!m.found)
 				continue;
 				
-			if (m.length > longest_match.length) {
+			if (m.length > longest_match.length)
 				longest_match = m;
-				matching_pattern = p;
-			}
 			
 		}
 		
-		if (matching_pattern == null)
+		if (longest_match == NO_MATCH)
 			return makeToken("ERROR", input);
 		
-		return makeToken(matching_pattern.name, longest_match);
+		return makeToken(longest_match.pattern.name,
+			         longest_match.value);
 	};
 	
 	var _lexer = function(input) {
