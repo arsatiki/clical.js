@@ -20,12 +20,12 @@ function tokenize(input) {
 	var getNextToken = lexer.lexer(input);
 	var t;
 	var tokens = [];
-	
+
 	do {
 		t = getNextToken();
 		tokens.push(t);
 	} while(t.name != "EOF");
-	
+
 	return tokens;
 }
 
