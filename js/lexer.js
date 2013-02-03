@@ -1,5 +1,3 @@
-var exports = exports || {};
-
 var lexer = (function(){
 	var makePattern = function(name, regex) {
 		var anchored = new RegExp("^" + regex.source);
@@ -69,21 +67,21 @@ var lexer = (function(){
 		                 longest_match.value, pos);
 	};
 	
-	var _lexer = function(input) {
-		var tokens = [];
-		var t;
+	var _lexer_factory = function(input) {
 		var pos = 0;
-		do {
-			t = getTokenAt(input, pos);
-			pos = pos + t.value.length;
-			if (t.name != "WHITESPACE")
-				tokens.push(t);
-		} while (t.name != "EOF");
+		var getNextToken = function() {
+			var t;
+			do {
+				t = getTokenAt(input, pos);
+				pos = pos + t.value.length;
 
-		return tokens;
+			} while (t.name == "WHITESPACE");
+			return t;
+		};
+		return getNextToken;
 	};
 	
-	return _lexer;
+	return _lexer_factory;
 })();
 
 exports.lexer = lexer;

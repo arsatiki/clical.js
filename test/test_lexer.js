@@ -16,14 +16,28 @@ function flattenTokens(tokens) {
 	return out.join(", ");
 }
 
+function tokenize(input) {
+	var getNextToken = lexer.lexer(input);
+	var t;
+	var tokens = [];
+	
+	do {
+		t = getNextToken();
+		console.log(t);
+		tokens.push(t);
+	} while(t.name != "EOF");
+	
+	return tokens;
+}
+
 exports.testSimple = function(test) {
-	var t = lexer.lexer(" foo ");
+	var t = tokenize(" foo ");
 	assert.equal(flattenTokens(t), "IDENTIFIER foo, EOF");
 	test.done();
 };
 
 exports.testOps = function(test) {
-	var t = lexer.lexer(" foo / (a + b) ");
+	var t = tokenize(" foo / (a + b) ");
 	var expected = ["IDENTIFIER foo", "OP_DIV /", "OPEN_PAREN (",
 	                "IDENTIFIER a", "OP_PLUS +", "IDENTIFIER b",
 	                "CLOSE_PAREN )", "EOF"].join(", ");
@@ -32,7 +46,7 @@ exports.testOps = function(test) {
 };
 
 exports.testError = function(test) {
-	var t = lexer.lexer("5 + #3");
+	var t = tokenize("5 + #3");
 	var expected = ["NUMBER 5", "OP_PLUS +", "ERROR #3",
 	                "EOF"].join(", ");
 	assert.equal(flattenTokens(t), expected);
@@ -40,7 +54,7 @@ exports.testError = function(test) {
 };
 
 exports.testAssignment = function(test) {
-	var t = lexer.lexer("a = sin(pi)");
+	var t = tokenize("a = sin(pi)");
 	var expected = ["IDENTIFIER a", "OP_EQUALS =", "IDENTIFIER sin",
 	                "OPEN_PAREN (", "IDENTIFIER pi", "CLOSE_PAREN )",
 	                "EOF"].join(", ");
@@ -49,7 +63,7 @@ exports.testAssignment = function(test) {
 };
 
 exports.testPosition = function(test) {
-	var t = lexer.lexer("    a");
+	var t = tokenize("    a");
 	assert.equal(t[0].pos, 4);
 	assert.equal(t[0].value, "a");
 	assert.equal(t[1].pos, 5);
