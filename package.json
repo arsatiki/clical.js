@@ -13,14 +13,12 @@
   },
   "dependencies": {},
   "devDependencies": {
-	"pegjs": "0.6.2",
 	"nodeunit": "0.7.3"
   },
   "private": true,
   "optionalDependencies": {},
   "scripts": {
-    "test": "nodeunit --reporter minimal test",
-    "parser": "pegjs clical.pegjs js/parser.js"
+    "test": "nodeunit --reporter minimal test"
   },
   "main": "./js/main.js"
 }
