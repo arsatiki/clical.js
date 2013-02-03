@@ -38,6 +38,7 @@ var lexer = (function(){
 		makePattern("OP_OUTER_POWER", /\^\^/),
 		makePattern("OP_INVOLUTION", new RegExp("'")),
 		makePattern("OP_CONJUGATE", /~/),
+		makePattern("OP_EQUALS", /=/),
 		// EOF and ERROR defined below
 	];
 	

@@ -39,3 +39,11 @@ exports.testError = function(test) {
 	test.done();
 };
 
+exports.testAssignment = function(test) {
+	var t = lexer.lexer("a = sin(pi)");
+	var expected = ["IDENTIFIER a", "OP_EQUALS =", "IDENTIFIER sin",
+	                "OPEN_PAREN (", "IDENTIFIER pi", "CLOSE_PAREN )",
+	                "EOF"].join(", ");
+	assert.equal(flattenTokens(t), expected);
+	test.done();
+};
