@@ -42,7 +42,6 @@ exports.testNumbers = function(test) {
 	             ["1E-2", "NUMBER 1E-2, EOF"],
 	             ["1e+2", "NUMBER 1e+2, EOF"],
 	             ["1e-2", "NUMBER 1e-2, EOF"],
-	             ["1e2", "NUMBER 1, IDENTIFIER e2, EOF"],
 	             ["1.0", "NUMBER 1.0, EOF"],
 	             ["0.1", "NUMBER 0.1, EOF"],
 	];
@@ -52,6 +51,21 @@ exports.testNumbers = function(test) {
 	}
 	test.done();
 };
+
+exports.testVectors = function(test) {
+	var k, t;
+	var cases = [["e", "IDENTIFIER e, EOF"],
+	             ["1e2", "NUMBER 1, BASISVECTOR e2, EOF"],
+	             ["e4x", "IDENTIFIER e4x, EOF"],
+	             ["e123", "BASISVECTOR e123, EOF"],
+	];
+	for (k = 0; k < cases.length; k++) {
+		t = flattenTokens(tokenize(cases[k][0]));
+		assert.equal(t, cases[k][1]);
+	}
+	test.done();
+};
+
 
 exports.testOps = function(test) {
 	var t = tokenize(" foo / (a + b) ");

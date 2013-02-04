@@ -23,7 +23,8 @@ var lexer = (function(){
 
 	var patterns = [
 		makePattern("WHITESPACE", /\s+/),
-		makePattern("IDENTIFIER", /[a-z]\w*/),
+		makePattern("BASISVECTOR", /e\d+/),
+		makePattern("IDENTIFIER", /[a-zA-Z_]\w*/),
 		makePattern("OPEN_PAREN", /\(/),
 		makePattern("CLOSE_PAREN", /\)/),
 		makePattern("NUMBER", /[0-9]*\.?[0-9]+((E[-+]?|e[-+])[0-9]+)?/),
