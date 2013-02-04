@@ -44,6 +44,14 @@ exports.testOps = function(test) {
 	test.done();
 };
 
+exports.testLongOps = function(test) {
+	var t = tokenize(" a ^^ c ** 2 ");
+	var expected = ["IDENTIFIER a", "OPERATOR ^^", "IDENTIFIER c",
+	                "OPERATOR **", "NUMBER 2", "EOF"].join(", ");
+	assert.equal(flattenTokens(t), expected);
+	test.done();
+};
+
 exports.testError = function(test) {
 	var t = tokenize("5 + #3");
 	var expected = ["NUMBER 5", "OPERATOR +", "ERROR #3",
