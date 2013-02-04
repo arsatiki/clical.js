@@ -26,7 +26,7 @@ var lexer = (function(){
 		makePattern("IDENTIFIER", /[a-z]\w*/),
 		makePattern("OPEN_PAREN", /\(/),
 		makePattern("CLOSE_PAREN", /\)/),
-		makePattern("NUMBER", /\d+/),
+		makePattern("NUMBER", /[0-9]*\.?[0-9]+((E[-+]?|e[-+])[0-9]+)?/),
 		makePattern("OPERATOR", /(\*\*|\^\^|[-+.*^/\\~''=])/),
 		// EOF and ERROR defined below
 	];

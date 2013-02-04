@@ -35,6 +35,24 @@ exports.testSimple = function(test) {
 	test.done();
 };
 
+exports.testNumbers = function(test) {
+	var k, t;
+	var cases = [["1", "NUMBER 1, EOF"],
+	             ["1E2", "NUMBER 1E2, EOF"],
+	             ["1E-2", "NUMBER 1E-2, EOF"],
+	             ["1e+2", "NUMBER 1e+2, EOF"],
+	             ["1e-2", "NUMBER 1e-2, EOF"],
+	             ["1e2", "NUMBER 1, IDENTIFIER e2, EOF"],
+	             ["1.0", "NUMBER 1.0, EOF"],
+	             ["0.1", "NUMBER 0.1, EOF"],
+	];
+	for (k = 0; k < cases.length; k++) {
+		t = flattenTokens(tokenize(cases[k][0]));
+		assert.equal(t, cases[k][1]);
+	}
+	test.done();
+};
+
 exports.testOps = function(test) {
 	var t = tokenize(" foo / (a + b) ");
 	var expected = ["IDENTIFIER foo", "OPERATOR /", "OPEN_PAREN (",
