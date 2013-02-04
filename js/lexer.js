@@ -27,18 +27,7 @@ var lexer = (function(){
 		makePattern("OPEN_PAREN", /\(/),
 		makePattern("CLOSE_PAREN", /\)/),
 		makePattern("NUMBER", /\d+/),
-		makePattern("OP_HAT", /\^/),
-		makePattern("OP_DOT", /\./),
-		makePattern("OP_MULT", /\*/),
-		makePattern("OP_MINUS", /-/),
-		makePattern("OP_PLUS", /\+/),
-		makePattern("OP_DIV", /\//),
-		makePattern("OP_REVDIV", /\\/),
-		makePattern("OP_POWER", /\*\*/),
-		makePattern("OP_OUTER_POWER", /\^\^/),
-		makePattern("OP_INVOLUTION", new RegExp("'")),
-		makePattern("OP_CONJUGATE", /~/),
-		makePattern("OP_EQUALS", /=/),
+		makePattern("OPERATOR", /([-+.*^/\\~''=]|\*\*|\^\^)/),
 		// EOF and ERROR defined below
 	];
 

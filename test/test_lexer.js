@@ -37,8 +37,8 @@ exports.testSimple = function(test) {
 
 exports.testOps = function(test) {
 	var t = tokenize(" foo / (a + b) ");
-	var expected = ["IDENTIFIER foo", "OP_DIV /", "OPEN_PAREN (",
-	                "IDENTIFIER a", "OP_PLUS +", "IDENTIFIER b",
+	var expected = ["IDENTIFIER foo", "OPERATOR /", "OPEN_PAREN (",
+	                "IDENTIFIER a", "OPERATOR +", "IDENTIFIER b",
 	                "CLOSE_PAREN )", "EOF"].join(", ");
 	assert.equal(flattenTokens(t), expected);
 	test.done();
@@ -46,7 +46,7 @@ exports.testOps = function(test) {
 
 exports.testError = function(test) {
 	var t = tokenize("5 + #3");
-	var expected = ["NUMBER 5", "OP_PLUS +", "ERROR #3",
+	var expected = ["NUMBER 5", "OPERATOR +", "ERROR #3",
 	                "EOF"].join(", ");
 	assert.equal(flattenTokens(t), expected);
 	test.done();
@@ -54,7 +54,7 @@ exports.testError = function(test) {
 
 exports.testAssignment = function(test) {
 	var t = tokenize("a = sin(pi)");
-	var expected = ["IDENTIFIER a", "OP_EQUALS =", "IDENTIFIER sin",
+	var expected = ["IDENTIFIER a", "OPERATOR =", "IDENTIFIER sin",
 	                "OPEN_PAREN (", "IDENTIFIER pi", "CLOSE_PAREN )",
 	                "EOF"].join(", ");
 	assert.equal(flattenTokens(t), expected);
