@@ -27,7 +27,7 @@ var lexer = (function(){
 		makePattern("OPEN_PAREN", /\(/),
 		makePattern("CLOSE_PAREN", /\)/),
 		makePattern("NUMBER", /\d+/),
-		makePattern("OPERATOR", /([-+.*^/\\~''=]|\*\*|\^\^)/),
+		makePattern("OPERATOR", /(\*\*|\^\^|[-+.*^/\\~''=])/),
 		// EOF and ERROR defined below
 	];
 
