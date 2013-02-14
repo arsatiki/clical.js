@@ -19,12 +19,10 @@ function appendTerm(parent, coeff, bases) {
 	b = mn(bases);
 	sub = createMathElement("msub");
 	
+	parent.appendChild(c);
+	parent.appendChild(sub);
 	sub.appendChild(e);
 	sub.appendChild(b);
-
-	parent.appendChild(c);
-	parent.appendChild(document.createTextNode("&InvisibleTimes;"));
-	parent.appendChild(sub);
 }
 
 function toMathML(mv) {
@@ -34,6 +32,9 @@ function toMathML(mv) {
 	var math = createMathElement("math");
 	var mrow = createMathElement("mrow");
 	math.appendChild(mrow);
+
+	mrow.appendChild(createMathElementAndText("mtext", "ans"));
+	mrow.appendChild(mo("="));
 	
 	for (k=0; k < mv.terms.length; k++) {
 		t = mv.terms[k];
@@ -62,7 +63,9 @@ function eval_input(event) {
 	var value = event.target.value;
 	event.target.value = "";
 
-	$("#results").append(formatAnswer(v(-1, -2, 3)));
+	var ans = formatAnswer(v(-1, -2, 3));
+	$("#results").append(ans);
+	MathJax.Hub.Typeset(ans);
 	event.stopPropagation();
 }
 
