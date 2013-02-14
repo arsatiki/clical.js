@@ -33,7 +33,7 @@ function toMathML(mv) {
 	var mrow = createMathElement("mrow");
 	math.appendChild(mrow);
 
-	mrow.appendChild(createMathElementAndText("mtext", "ans"));
+	mrow.appendChild(mi("ans"));
 	mrow.appendChild(mo("="));
 	
 	for (k=0; k < mv.terms.length; k++) {
@@ -53,19 +53,18 @@ function toMathML(mv) {
 	return math;
 }
 
-function formatAnswer(answer) {
-	var li = document.createElement("li");
-	li.appendChild(toMathML(answer));
-	return li;
-}
-
 function eval_input(event) {
 	var value = event.target.value;
 	event.target.value = "";
+	
+	var item = $("<li/>");
+	var entry = $("<kbd/>").append("> " + value);
+	var ans = toMathML(v(-1, -2, 3));
+	item.append(entry).append(ans);
 
-	var ans = formatAnswer(v(-1, -2, 3));
-	$("#results").append(ans);
-	MathJax.Hub.Typeset(ans);
+	$("#results").append(item);
+	MathJax.Hub.Queue(["Typeset", MathJax.Hub, item.get(0)]);
+
 	event.stopPropagation();
 }
 
