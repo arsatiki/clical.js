@@ -2,20 +2,24 @@ function createMathElement(name) {
 	var MATHML = "http://www.w3.org/1998/Math/MathML";
 	return document.createElementNS(MATHML, name);
 }
+function createMathElementAndText(name, data) {
+	var e = createMathElement(name);
+	e.appendChild(document.createTextNode(data));
+	return e;
+}
 
+function mn(n) { return createMathElementAndText("mn", n); }
+function mo(op) { return createMathElementAndText("mo", op); }
+function mi(id) { return createMathElementAndText("mi", id); }
 
-function createTermTree(parent, coeff, bases) {
+function appendTerm(parent, coeff, bases) {
 	var c, e, b, sub;
-	c = createMathElement("mn");
-	e = createMathElement("mi");
-	b = createMathElement("mn");
+	c = mn(coeff);
+	e = mi("e");
+	b = mn(bases);
 	sub = createMathElement("msub");
 	
-	c.appendChild(document.createTextNode(coeff));
-	e.appendChild(document.createTextNode("e"))
-	b.appendChild(document.createTextNode(bases));
 	sub.appendChild(e);
-	sub.appendChild(document.createTextNode(" "));
 	sub.appendChild(b);
 
 	parent.appendChild(c);
@@ -24,7 +28,7 @@ function createTermTree(parent, coeff, bases) {
 }
 
 function toMathML(mv) {
-	var k, t;
+	var k, t, c, combining_op;
 
 	var NS = "";
 	var math = createMathElement("math");
@@ -33,28 +37,32 @@ function toMathML(mv) {
 	
 	for (k=0; k < mv.terms.length; k++) {
 		t = mv.terms[k];
-		createTermTree(mrow, t.coefficient, t.dimensions.join(""));
+		c = t.coefficient;
+		if (k > 0) {
+			combining_op = '+';
+			if (c < 0) {
+				c = -c;
+				combining_op = "-";
+			}
+			mrow.appendChild(mo(combining_op));
+		}
+		appendTerm(mrow, c, t.dimensions.join(""));
 	}
-	var li = document.createElement("li");
-	li.appendChild(math);
-	return li;
+
+	return math;
 }
 
-function lifmt(value, answer) {
-	var input = $('<kbd />').append(value);
-	var ansp = $('<output form="input" />').append("ans = " + answer);
-	return $("<li/>").append(input).append(ansp);
-	
+function formatAnswer(answer) {
+	var li = document.createElement("li");
+	li.appendChild(toMathML(answer));
+	return li;
 }
 
 function eval_input(event) {
 	var value = event.target.value;
 	event.target.value = "";
 
-	/*var parsed = clicalparser.parse(value);*/
-
-	/*$("#results").append(lifmt(value, parsed));*/
-	$("#results").append(toMathML(v(1.0, 2.0, 3.0)));
+	$("#results").append(formatAnswer(v(-1, -2, 3)));
 	event.stopPropagation();
 }
 
