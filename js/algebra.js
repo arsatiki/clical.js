@@ -77,6 +77,7 @@ Multivector.prototype.plus = function(other) {
 	return new Multivector(this.terms.concat(other.terms));
 }
 
+/* Helper function for creating vectors */
 function v() {
 	var coefficients = Array.prototype.slice.call(arguments);
 	var k, terms = [];
@@ -87,6 +88,7 @@ function v() {
 	return new Multivector(terms);
 }
 
+/* Helper function for creating scalars */
 function s(coefficient) {
 	var term = new Term(coefficient, []);
 	return new Multivector([term]);
