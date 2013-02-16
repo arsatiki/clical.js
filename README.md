@@ -21,11 +21,3 @@ Development docs
 - nodeunit: https://github.com/caolan/nodeunit#readme
 - peg.js: http://pegjs.majda.cz/documentation
 
-TODO
-----
-
-- Add multivectors into the parser
-- Add multivector formatting for the output
-- improve algebra proto JS
-  - wedge product
-  - geometric product
