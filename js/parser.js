@@ -18,7 +18,6 @@ function matchToken(ts, tokentype, value) {
 	return true;
 }
 
-/* Parse e123 string into [1, 2, 3] */
 function parseBase(ts) {
 	var k, b = [], base ="", sub;
 	if (ts.peek.name == "BASISVECTOR")
