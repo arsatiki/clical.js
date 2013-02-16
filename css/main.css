@@ -1,18 +1,22 @@
-kbd {
+ul#results {
+	list-style-type: none;
+}
+
+#results li {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.calculator {
+	width: 40em;
+	margin: 0 auto;
+}
+
+#results kbd {
 	display: block;
 }
 
-.answer {
-	display:block;
-}
-
-.vector {
-	font-style: italic;
-	font-size: 120%;
-	padding: 0 0.2em;
-}
-.vector sub {
-	font-style: normal;
-	vertical-align: sub;
-	font-size: 75%;
+#input {
+	margin-top: 1.5em;
+	width: 100%;
 }
