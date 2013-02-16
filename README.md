@@ -19,5 +19,4 @@ Development docs
 ----------------
 
 - nodeunit: https://github.com/caolan/nodeunit#readme
-- peg.js: http://pegjs.majda.cz/documentation
 
