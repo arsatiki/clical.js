@@ -15,7 +15,7 @@ function mi(id) { return createMathElementAndText("mi", id); }
 function appendTerm(parent, coeff, bases) {
 	var c, e, b, sub;
 	
-	if (coeff != 1) {
+	if (coeff != 1 || bases.length == 0) {
 		c = mn(coeff);
 		parent.appendChild(c);
 	}
