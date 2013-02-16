@@ -53,13 +53,18 @@ function toMathML(mv) {
 	return math;
 }
 
-function eval_input(event) {
+function eval_input(input) {
+	var ts = lookahead(lexer(input));
+	return evalExpression(ts);
+}
+
+function handle_input(event) {
 	var value = event.target.value;
 	event.target.value = "";
 	
 	var item = $("<li/>");
 	var entry = $("<kbd/>").append("> " + value);
-	var ans = toMathML(v(-1, -2, 3));
+	var ans = toMathML(eval_input(value));
 	item.append(entry).append(ans);
 
 	$("#results").append(item);
@@ -69,5 +74,5 @@ function eval_input(event) {
 }
 
 $(function () {
-	$("#input").on("change", eval_input);
+	$("#input").on("change", handle_input);
 });
