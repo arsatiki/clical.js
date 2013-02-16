@@ -20,10 +20,30 @@ Prefer naive algorithms over fancier ones, if the only benefit is performance. F
 
 Avoid dependencies. Managing dependencies is like looking after kids; if they're not yours, you must really really like them. Only add dependencies, which give you significant leverage with regard to features. Do not add convinience dependencies, at least until the pain of inconvinience has grown too great.
 
-Do not add pre-1.0 dependencies.
+Do not add dependencies to pre-1.0 software.
 
 Syntax
 ------
 
 - tabs are tabs
 - camelCase names
+
+Development
+-----------
+
+The development environment for the Javascript libraries requires Node and
+npm. After installing those, run
+
+    npm link
+    npm -s test (or npm config set loglevel silent)
+
+Tests go to tests subdirectory.
+
+Reference
+=========
+
+Library documentation
+---------------------
+
+- nodeunit: https://github.com/caolan/nodeunit#readme
+- MathJax: http://docs.mathjax.org/en/latest/
