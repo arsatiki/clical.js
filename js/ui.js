@@ -15,14 +15,17 @@ function mi(id) { return createMathElementAndText("mi", id); }
 function appendTerm(parent, coeff, bases) {
 	var c, e, b, sub;
 	c = mn(coeff);
-	e = mi("e");
-	b = mn(bases);
-	sub = createMathElement("msub");
-	
 	parent.appendChild(c);
-	parent.appendChild(sub);
-	sub.appendChild(e);
-	sub.appendChild(b);
+	
+	if (bases.length > 0) {
+		e = mi("e");
+		b = mn(bases);
+		sub = createMathElement("msub");
+
+		parent.appendChild(sub);
+		sub.appendChild(e);
+		sub.appendChild(b);
+	}
 }
 
 function toMathML(mv) {
