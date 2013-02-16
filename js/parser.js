@@ -19,8 +19,11 @@ function matchToken(ts, tokentype, value) {
 }
 
 /* Parse e123 string into [1, 2, 3] */
-function parseBase(base) {
-	var k, b = [], sub;
+function parseBase(ts) {
+	var k, b = [], base ="", sub;
+	if (ts.peek.name == "BASISVECTOR")
+		base = ts().value;
+
 	for (k=1; k < base.length; k++) {
 		sub = base.substring(k, k+1);
 		b.push(parseInt(sub));
@@ -28,32 +31,29 @@ function parseBase(base) {
 	return b;
 }
 
-function evalFactor(ts) {
+function parseCoefficient(ts) {
+	if (ts.peek.name == "NUMBER")
+		return parseFloat(ts().value);
+	if (ts.peek.name == "BASISVECTOR")
+		return 1;
+	return undefined;
+}
+
+function parseFactor(ts) {
 	var t, c, b;
 	var k;
 
-	t = ts();
+	c = parseCoefficient(ts);
+	b = parseBase(ts);
 	
-	if (t.name != "NUMBER") {
-		return undefined;
-	}
-
-	c = parseFloat(t.value);
-	b = [];
-	if (ts.peek.name == "BASISVECTOR") {
-		t = ts();
-		b = parseBase(t.value);
-	}
-	
-	/* TODO: The API for Multivectors is shite */
+	/* TODO: The API for new Multivectors is shite */
 	return new Multivector([new Term(c, b)]);
 }
 
 function evalExpression(ts) {
 	var left, right;
 
-	left = evalFactor(ts);
-	console.log("Received", left, "Next token is", ts.peek);
+	left = parseFactor(ts);
 
 	if (ts.peek.name == "EOF")
 		return left;
