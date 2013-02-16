@@ -43,8 +43,10 @@ output can be a lot prettier.
 Current status
 ==============
 
-It doesn't work yet. But it is close! Once I have some form of end-to-end functionality
-in place, I'll make a Github Page out of it and link it here.
+It can do sums! That's end-to-end functionality from input to output. This means we are
+at version 0.0.1. See it in action at http://arsatiki.github.com/clical.js/
+
+(Try 1 + 2e1 or e1 + e12 + e21 or whatever.)
 
 For more detailed future plans, see the Github issues list and the file CONTRIBUTING.md.
 
