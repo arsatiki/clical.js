@@ -49,8 +49,19 @@ function parseFactor(ts) {
 	return new Multivector([new Term(c, b)]);
 }
 
+function parseUnary(ts) {
+	var op = ts();
+	console.log("Parsing unary", op.value);
+	var rest = evalExpression(ts);
+	return op.value == '+'? rest: rest.neg();
+}
+
 function evalExpression(ts) {
 	var left, right;
+	console.log(ts.peek);
+
+	if (ts.peek.name == "OPERATOR")
+		return parseUnary(ts);
 
 	left = parseFactor(ts);
 
