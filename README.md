@@ -40,6 +40,16 @@ CLICAL had a pleasant syntax, but running it in a modern computer can be a bit
 underwhelming. On the Web it can be used from anywhere on the world; also the
 output can be a lot prettier.
 
+Current status
+==============
+
+It doesn't work yet. But it is close! Once I have some form of end-to-end functionality
+in place, I'll make a Github Page out of it and link it here.
+
+For more detailed future plans, see the Github issues list and the file CONTRIBUTING.md.
+
+
+
 Other information
 =================
 
