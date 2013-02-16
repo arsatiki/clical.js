@@ -13,8 +13,8 @@ Helsinki University of Technology in 1987. From the [original documentation][ori
 > multivectors. Oriented volume elementes, or segments of subspaces,
 > are represented by simple multivectors, which are homogeneous and
 > decomposable elements in the exterior algebra. CLICAL works on
-> Clifford algebras Cl_{p,q} of real non-degenerate quadratic spaces
-> R^{p,q}.
+> Clifford algebras _Cl_<sub>p,q</sub> of real non-degenerate quadratic spaces
+> *R*<sup>p,q</sup>.
 
 > Clifford algebras are used to handle rotations and oriented
 > subspaces. Clifford algebra is a user interface, which provides
@@ -30,11 +30,25 @@ Why re-implement it?
 ====================
 
 I think Geometric Algebras and Clifford Algebras are the neatest way of
-explaining many physical phenomena. For example, replacing the concept of the axis of rotation with a _plane_ of rotation gives you information about the orientation of rotation. This means that even when you switch from right-handed coordinate system to a left-handed system, there will be no unphysical axis reversal.
+explaining many physical phenomena. For example, replacing the concept of
+the axis of rotation with a _plane_ of rotation gives you information about
+the orientation of rotation. This means that even when you switch from
+right-handed coordinate system to a left-handed system, there will be no unphysical axis reversal.
 
 This project is my attempt at bringing geometric algebra to a wider audience.
 CLICAL had a pleasant syntax, but running it in a modern computer can be a bit
-underwhelming. On the Web it can be used from anywhere on the world; also the output can be a lot prettier.
+underwhelming. On the Web it can be used from anywhere on the world; also the
+output can be a lot prettier.
+
+Current status
+==============
+
+It doesn't work yet. But it is close! Once I have some form of end-to-end functionality
+in place, I'll make a Github Page out of it and link it here.
+
+For more detailed future plans, see the Github issues list and the file CONTRIBUTING.md.
+
+
 
 Other information
 =================
