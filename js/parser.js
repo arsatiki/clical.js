@@ -40,7 +40,7 @@ function evalFactor(ts) {
 
 	c = parseFloat(t.value);
 	b = [];
-	if (ts.peek.tokentype == "BASISVECTOR") {
+	if (ts.peek.name == "BASISVECTOR") {
 		t = ts();
 		b = parseBase(t.value);
 	}
