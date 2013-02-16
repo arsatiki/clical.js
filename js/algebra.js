@@ -15,6 +15,9 @@ Term.prototype.toString = function() {
 };
 
 Term.prototype.vanishes = function() { return this.coefficient == 0; };
+Term.prototype.neg = function () {
+	return new Term(-this.coefficient, this.dimensions);
+}
 
 Term.combine_bases = function (terms) {
 	var k, coeffs = {};
@@ -76,6 +79,17 @@ Multivector.prototype.toString = function() {
 Multivector.prototype.plus = function(other) {
 	return new Multivector(this.terms.concat(other.terms));
 }
+Multivector.prototype.minus = function(other) {
+	return this.plus(other.neg());
+}
+Multivector.prototype.neg = function() {
+	var k, terms = [];
+	for (k = 0; k < this.terms.length; k++)
+		terms.push(this.terms[k].neg());
+
+	return new Multivector(terms);
+}
+
 
 /* Helper function for creating vectors */
 function v() {

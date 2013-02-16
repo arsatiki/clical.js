@@ -24,7 +24,7 @@ exports.testToString = function(test) {
 exports.testSum = function(test) {
 	var v1 = algebra.v(1, 2, 3),
 	    v2 = algebra.v(2, 3, -3),
-		vs = v1.plus(v2);
+	    vs = v1.plus(v2);
 	
 	assert.equal(vs.terms.length, 2, 'combine terms');
 	assert.equal(vs.terms[0].coefficient, 3, 'first coeff correct');
@@ -40,6 +40,17 @@ exports.testScalarSum = function(test) {
 	assert.equal(ss.terms[0].coefficient, 3, '1 + 2 = 3');
 	test.done();
 };
+
+exports.testNeg = function(test) {
+	var v = algebra.v(1, 2, 3).neg();
+	
+	assert.equal(v.terms[0].coefficient, -1, 'first coeff correct');
+	assert.equal(v.terms[1].coefficient, -2, 'second coeff correct');
+	assert.equal(v.terms[2].coefficient, -3, 'second coeff correct');
+	
+	test.done();
+};
+
 
 exports.testSort = function(test) {
 	// TODO: This can be improved once we can build 2-vectors
