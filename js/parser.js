@@ -57,9 +57,18 @@ function evalExpression(ts) {
 	if (ts.peek.name == "EOF")
 		return left;
 	
-	matchToken(ts, "OPERATOR", "+");
-	right = evalExpression(ts);
-	
-	return left.plus(right);
+	switch (ts.peek.value) {
+		case "+":
+			matchToken(ts, "OPERATOR", "+");
+			right = evalExpression(ts);
+			return left.plus(right);
+		break;
+		
+		case "-":
+			matchToken(ts, "OPERATOR", "-");
+			right = evalExpression(ts);
+			return left.minus(right);
+		break;
+	}
 }
 
