@@ -14,7 +14,7 @@ Helsinki University of Technology in 1987. From the [original documentation][ori
 > are represented by simple multivectors, which are homogeneous and
 > decomposable elements in the exterior algebra. CLICAL works on
 > Clifford algebras _Cl_<sub>p,q</sub> of real non-degenerate quadratic spaces
-> *R*<sup>p,q</sup>.
+> **R**<sup>p,q</sup>.
 
 > Clifford algebras are used to handle rotations and oriented
 > subspaces. Clifford algebra is a user interface, which provides
@@ -37,8 +37,13 @@ right-handed coordinate system to a left-handed system, there will be no unphysi
 
 This project is my attempt at bringing geometric algebra to a wider audience.
 CLICAL had a pleasant syntax, but running it in a modern computer can be a bit
-underwhelming. On the Web it can be used from anywhere on the world; also the
-output can be a lot prettier.
+underwhelming. On the Web it can be used from anywhere on the world. Also the
+output can be a lot prettier. To emphasize the last point, here's a quote from
+the _GUIDE_ file distributed with the original:
+
+> If you have a color monitor and a color card, you can write colored files.
+
+Indeed I have a color monitor!
 
 Current status
 ==============
