@@ -1,0 +1,173 @@
+echo -
+dimension 2
+echo +
+say
+say This is your first interactive tutorial session on CLICAL.
+say Let us start this tutorial with examples and exercises on $wComplex Numbers$c.
+say If you want to compute  5/(3+4i)  type  $y5/(3+4i)$c  like this:
+5/(3+4i)
+say 
+say To proceed with this tutor respond the sign  $w>$c  by pressing the $mEnter-key$c.
+pause
+say $mRead the following Example and work out the joint Exercise and after
+say compelting the exercise, $m press once more Enter$c.
+say
+say Example 1.   The complex numbers  2-i  and  2+3i  are multiplied as follows:
+(2-i)*(2+3i)
+say
+say Exercise 1.  To multiply  4+i  and  3+2i  type yourself  $y(4+i)*(3+2i)$c.
+pause
+say Example 2.   The square root of  8+6i  is obtained as follows:
+sqrt(8+6i)
+say
+say Exercise 2.  Calculate the square root of  3+4i  by typing  $ysqrt(3+4i)$c.
+pause
+say Example 3.   The cube of  4+i  is computed in the following way:
+(4+i)**3
+say
+say Exercise 3.  Compute the fifth power of the complex number  1+2i.
+pause
+say Example 4.   Here are two fifth roots of the unity  1:
+s=exp(i*2pi/5)
+s*s
+say
+say Exercise 4.  Find two more fifth roots of the unity  1.
+pause
+say
+say Exercise 5.  Find three seventh roots of the unity  1.
+pause
+say Example.   Compare  log(i)  to the exact value  i*pi/2:
+z=log(i)
+i*pi/2
+abs(ans-z)
+say
+say Exercise.  Compare  log(1+i)  to the exact value  log(2)/2+i*pi/4.
+pause
+say Example.   Evaluate the function  f(z)=log(1+z)  at  z=1  and  z=i:
+f(z)=log(1+z)
+f(1)
+f(i)
+say
+say Exercise.  Evaluate the function  f(z)=1/(1+exp(z))  at  z=i/2  and  z=i.
+pause
+say Example.   In order to select a square root of  -1, that is,  i  or  -i, you
+say            must add a small perturbation term into the argument of  sqrt(-1):
+sqrt(-1)
+sqrt(-1+i/100000000)
+sqrt(-1-i/100000000)
+say
+say Exercise.  Compute the logarithm of  -1.
+pause
+say
+say Exercise.  Find a solution to  sin(x)=2  by computing  asin(2).
+pause
+say You have passed the first part of the Tutor.
+say More advanced information about CLICAL can be obtained by the commands:
+say
+say     $yGET GUIDE$r    Instructions to use external files of CLICAL.
+say     $yGET DEMO$r     Demonstration file to show possibilities of CLICAL.
+say
+say The second part of the Tutor deals with the $wVector Plane$c.
+say To proceed $mPress <CARRIAGE RETURN>.
+pause
+say Example.   Determine the area of the triangle  OPQ, where
+say            P=(5,-1)  and  Q=(3,1):
+OP=5e1-e2
+OQ=3e1+e2
+abs(OP^OQ)/2
+say
+say Exercise.  Determine the area of the triangle  OPQ, where
+say            P=(7,1)  and  Q=(1,5).
+pause
+say Example.   Find the projection of the vector  a=3e1+e2  in the direction
+say            b=e1+e2  and the component of  a  perpendicular to  b:
+a=3e1+e2
+b=e1+e2
+(a.b)/b
+(a^b)/b
+say
+say Exercise.  Find the projection of  a=e1+3e2  in the direction  b=3e1+4e2
+say            and the component of  a  perpendicular to  b.
+pause
+say Example.   Compute the mirror image of  a=3e1+4e2  with respect to
+say            the line  b=2e1+e2:
+a=3e1+4e2
+b=2e1+e2
+b a/b
+say
+say Exercise.  Compute the mirror image of  a=7e1+e2  with respect to
+say            the line  b=e1+3e2.
+pause
+say Example.   Rotate the vector  r=3e1+5e2  to the right by the angle  pi/3:
+r=3e1+5e2
+s=exp(i pi/6)
+s r/s
+say
+say Exercise.  Rotate the vector  r=4e1+7e2  to the left by the angle  pi/4.
+pause
+say You have passed the second part of the Tutor.
+say More advanced information about CLICAL can be obtained by the commands:
+say
+say     $yGET GUIDE$r    Instructions to use external files of CLICAL.
+say     $yGET DEMO$r     Demonstration file to show possibilities of CLICAL.
+say
+say The third part deals with the $wVector Space$c.
+pause
+dimension 3
+say
+say In three dimensions the square root of  -1  is denoted in the input by  $yj
+say and in the output by  $gj$c  or  $ge123$c, which is the oriented volume  e1e2e3.
+pause
+say Example.   Rotate the vector  r=2e1+e2+2e3  around the axis
+say            a=1.5e1+2e2  by the angle  |a|=2.5:
+a=1.5e1+2e2
+s=exp(j a/2)
+r=2e1+e2+2e3
+s r/s
+say
+say Exercise.  Rotate the vector  r=3e1+4e2+2e3  around the axis
+say            a=4e1+e2+3e3  by the angle  2pi/7.
+pause
+say Example.   Compute the area of the parallelogram with sides
+say            u=2e1+3e2+4e3  and  v=4e1+e2+3e3:
+u=2e1+3e2+4e3
+v=4e1+e2+3e3
+abs(u^v)
+say
+say Exercise.  Compute the area of the parallelogram with sides
+say            u=4e1+5e2+7e3  and  v=2e1+7e2+8e3.
+pause
+say Example.   Compute the component of  q=-5e1+7e2  perpendicular to the
+say            plane  F  spanned by  4e1+e3  and  3e1+e2:
+q=-5e1+7e2
+F=(4e1+e3)^(3e1+e2)
+(q^F)/F
+say
+say Exercise.  Compute the component of  q  parallel to the plane  F.
+pause
+say You have passed the third part of the Tutor.
+say More advanced information about CLICAL can be obtained by the commands:
+say
+say     $yGET DEMO$r     Demonstration file to show possibilities of CLICAL.
+say     $yGET GUIDE$r    Instructions to use external files of CLICAL.
+say
+say In the fourth part one enters the $wSpace-Time$c.
+say
+say In order to enter the Space-Time you must input the dimensions of the
+say space and the time by typing  $ydimension 3,1$c:
+pause
+dimension 3,1
+say
+say The Space-Time has basis elements e1, e2, e3 and e4.  The basis elements
+say e1, e2, e3  are space-like and the basis element  e4  is time-like.
+say
+say $mThe square root of  -1  is denoted in the input by  $yj$m  and in the output by
+say $gj$m  or  $ge123$c4$m, which is the oriented volume  e1e2e3e4  of the Space-Time.
+pause
+say You have passed the Tutor of CLICAL.
+say More information about CLICAL can be found by typing
+say
+say    $yGET DEMO
+say    $yGET GUIDE
+say
+say $mEnd of TUTOR.

@@ -1,0 +1,17 @@
+say
+say A sample Faraday bivector $wF(x)$c with source $wJ(x)$c in $wR^3,1$c is given.  Test 
+say $wDF(x) = J(x)$c by typing $yGET DERIVE4.CLI$c, $yf(x) = F(x)$c, $yDf(x)$c and $yJ(x)$c.
+x1(x)=x.(1/e1);
+x2(x)=x.(1/e2);
+x3(x)=x.(1/e3);
+x4(x)=x.(1/e4);
+A(x)=(x2(x)**2)e1+x3(x)(x4(x)**2)e2+(x1(x)**2+(x2(x)**2)(x4(x)**2))e3+x1(x)x2(x)(x3(x)**2)e4;
+F(x)=2x2(x)e12-2x1(x)e13-x2(x)(x3(x)**2)e14+(1-2x2(x))(x4(x)**2)e23-x3(x)(x1(x)x3(x)+2x4(x))e24-2x2(x)(x1(x)x3(x)+x2(x)x4(x))e34;
+J(x)=-2e1+2x3(x)e2+2(-1-x4(x)**2+x2(x)**2)e3-2x1(x)x2(x)e4;
+E(x)=e4.F(x);
+B(x)=(F(x)-E(x)e4)e123;
+V(x)=-e4.A(x);
+A3(x)=(A(x)^e4)/e4;
+rho(x)=-e4.J(x);
+J3(x)=(J(x)^e4)/e4;
+x=e1+0.5e2+e3+1.25e4;
