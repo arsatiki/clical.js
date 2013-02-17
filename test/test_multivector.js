@@ -15,6 +15,18 @@ exports.testConstructorFiltering = function(test) {
 	test.done();
 };
 
+exports.testZeroValue = function(test) {
+	var a = algebra.v(1),
+	    b = algebra.v(-1),
+	    c = a.plus(b);
+	assert.equal(c.terms.length, 1, "zero entry present");
+	assert.equal(c.terms[0].coefficient, 0, "zero has zero coefficient");
+	assert.equal(c.terms[0].dimensions.length, 0,
+		"zero entry has no dimensions");
+	test.done();
+};
+
+
 exports.testToString = function(test) {
 	var s = algebra.v(1, 5, -1).toString();
 	assert.equal(s, "(1 e1) + (5 e2) + (-1 e3)");

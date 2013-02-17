@@ -65,6 +65,10 @@ function Multivector(terms) {
 		if (!terms[k].vanishes())
 			this.terms.push(terms[k]);
 
+	// Create a useful 0 entry
+	if (this.terms.length == 0)
+		this.terms.push(new Term(0, []));
+
 	this.terms.sort(Term.cmp);
 }
 
