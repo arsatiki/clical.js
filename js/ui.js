@@ -1,3 +1,5 @@
+var global_scope = {};
+
 function createMathElement(name) {
 	var MATHML = "http://www.w3.org/1998/Math/MathML";
 	return document.createElementNS(MATHML, name);
@@ -31,7 +33,7 @@ function appendTerm(parent, coeff, bases) {
 	}
 }
 
-function toMathML(mv) {
+function toMathML(variable, mv) {
 	var k, t, c, combining_op;
 
 	var NS = "";
@@ -39,9 +41,9 @@ function toMathML(mv) {
 	var mrow = createMathElement("mrow");
 	math.appendChild(mrow);
 
-	mrow.appendChild(mi("ans"));
+	mrow.appendChild(mi(variable));
 	mrow.appendChild(mo("="));
-	
+
 	for (k=0; k < mv.terms.length; k++) {
 		t = mv.terms[k];
 		c = t.coefficient;
@@ -59,9 +61,9 @@ function toMathML(mv) {
 	return math;
 }
 
-function eval_input(input) {
+function eval_input(input, env) {
 	var ts = lookahead(lexer(input));
-	return evalExpression(ts);
+	return evalStatement(ts, env);
 }
 
 function handle_input(event) {
@@ -70,8 +72,9 @@ function handle_input(event) {
 	
 	var item = $("<li/>");
 	var entry = $("<kbd/>").append("> " + value);
-	var ans = toMathML(eval_input(value));
-	item.append(entry).append(ans);
+	var variable = eval_input(value, global_scope);
+	var output = toMathML(variable, global_scope[variable]);
+	item.append(entry).append(output);
 
 	$("#results").append(item);
 	MathJax.Hub.Queue(["Typeset", MathJax.Hub, item.get(0)]);
