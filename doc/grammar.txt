@@ -1,0 +1,17 @@
+This is a quick sketch of the grammar of the langugage.
+
+statement ::= expression | assignment | command;
+
+expression ::= term (sumop term)*;
+
+sumop ::= '+' | '-';
+
+term ::= factor (factor | mulop factor);
+
+mulop ::= '*' | '/' | '\' | '^' | '.'; TODO: exponents?
+
+factor ::= identifier | number basisvector? | number? basisvector | '(' expression ')';
+
+assignment ::= ...
+
+command ::= ...
