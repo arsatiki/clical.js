@@ -34,6 +34,21 @@ exports.testToString = function(test) {
 	test.done();
 }
 
+exports.testOutputFormat = function(test) {
+	var s = algebra.v(1, 5, -1).outputFormat();
+	assert.equal(s.length, 3);
+	assert.deepEqual(s, [
+		{coefficient: 1, abs_coefficient: 1, sign: '+',
+			dimensions: [1]},
+		{coefficient: 5, abs_coefficient: 5, sign: '+',
+			dimensions: [2]},
+		{coefficient: -1, abs_coefficient: 1, sign: '-',
+			dimensions: [3]},
+		]);	
+	test.done();
+}
+
+
 exports.testSum = function(test) {
 	var v1 = algebra.v(1, 2, 3),
 	    v2 = algebra.v(2, 3, -3),

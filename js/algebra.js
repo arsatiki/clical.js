@@ -80,6 +80,22 @@ Multivector.prototype.toString = function() {
 	return items.join(" + ");
 };
 
+Multivector.prototype.outputFormat = function() {
+	function formatTerm(t) {
+		return {
+			coefficient: t.coefficient,
+			sign: t.coefficient >= 0? '+': '-',
+			abs_coefficient: Math.abs(t.coefficient),
+			dimensions: t.dimensions
+		}
+	}
+	
+	var k, out = [];
+	for (k=0; k < this.terms.length; k++)
+		out.push(formatTerm(this.terms[k]));
+	return out;
+};
+
 Multivector.prototype.plus = function(other) {
 	return new Multivector(this.terms.concat(other.terms));
 }

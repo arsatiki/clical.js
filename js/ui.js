@@ -35,6 +35,7 @@ function appendTerm(parent, coeff, bases) {
 
 function toMathML(variable, mv) {
 	var k, t, c, combining_op;
+	var mvList = mv.outputFormat();
 
 	var NS = "";
 	var math = createMathElement("math");
@@ -44,16 +45,14 @@ function toMathML(variable, mv) {
 	mrow.appendChild(mi(variable));
 	mrow.appendChild(mo("="));
 
-	for (k=0; k < mv.terms.length; k++) {
-		t = mv.terms[k];
-		c = t.coefficient;
+	for (k=0; k < mvList.length; k++) {
+		t = mvList[k];
+
 		if (k > 0) {
-			combining_op = '+';
-			if (c < 0) {
-				c = -c;
-				combining_op = "-";
-			}
-			mrow.appendChild(mo(combining_op));
+			c = t.abs_coefficient;
+			mrow.appendChild(mo(t.sign));
+		} else {
+			c = t.coefficient;
 		}
 		appendTerm(mrow, c, t.dimensions.join(""));
 	}
