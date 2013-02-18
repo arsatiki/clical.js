@@ -19,10 +19,11 @@ exports.testZeroValue = function(test) {
 	var a = algebra.v(1),
 	    b = algebra.v(-1),
 	    c = a.plus(b);
-	assert.equal(c.terms.length, 1, "zero entry present");
-	assert.equal(c.terms[0].coefficient, 0, "zero has zero coefficient");
-	assert.equal(c.terms[0].dimensions.length, 0,
-		"zero entry has no dimensions");
+	assert.deepEqual(c.terms, [{
+		coefficient: 0,
+		dimensions: []
+	}]);
+		
 	test.done();
 };
 
