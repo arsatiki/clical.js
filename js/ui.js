@@ -34,7 +34,7 @@ function appendTerm(parent, coeff, bases) {
 }
 
 function toMathML(variable, mv) {
-	var k, t, c, combining_op;
+	var k, t, c;
 	var mvList = mv.outputFormat();
 
 	var math = createMathElement("math");
