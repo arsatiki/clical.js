@@ -37,7 +37,6 @@ function toMathML(variable, mv) {
 	var k, t, c, combining_op;
 	var mvList = mv.outputFormat();
 
-	var NS = "";
 	var math = createMathElement("math");
 	var mrow = createMathElement("mrow");
 	math.appendChild(mrow);
