@@ -14,17 +14,18 @@ function mn(n) { return createMathElementAndText("mn", n); }
 function mo(op) { return createMathElementAndText("mo", op); }
 function mi(id) { return createMathElementAndText("mi", id); }
 
-function appendTerm(parent, coeff, bases) {
-	var c, e, b, sub;
+function appendTerm(parent, sign, magnitude, bases) {
+	var coeff, e, b, sub;
 	
-	if (coeff != 1 || bases.length == 0) {
-		c = mn(coeff);
-		parent.appendChild(c);
-	}
+	var omit_number = (magnitude == 1 && bases.length > 0);
+	coeff = omit_number? sign: sign + magnitude;
+	
+	if (coeff)
+		parent.appendChild(mn(coeff));
 	
 	if (bases.length > 0) {
 		e = mi("e");
-		b = mn(bases);
+		b = mn(bases.join(""));
 		sub = createMathElement("msub");
 
 		parent.appendChild(sub);
@@ -34,7 +35,7 @@ function appendTerm(parent, coeff, bases) {
 }
 
 function toMathML(variable, mv) {
-	var k, t, c;
+	var k, t;
 	var mvList = mv.outputFormat();
 
 	var math = createMathElement("math");
@@ -44,16 +45,17 @@ function toMathML(variable, mv) {
 	mrow.appendChild(mi(variable));
 	mrow.appendChild(mo("="));
 
-	for (k=0; k < mvList.length; k++) {
+	t = mvList[0];
+	if (t.sign == '+')
+		t.sign = "";
+	
+	appendTerm(mrow, t.sign, t.magnitude, t.dimensions);
+
+	for (k=1; k < mvList.length; k++) {
 		t = mvList[k];
 
-		if (k > 0) {
-			c = t.abs_coefficient;
-			mrow.appendChild(mo(t.sign));
-		} else {
-			c = t.coefficient;
-		}
-		appendTerm(mrow, c, t.dimensions.join(""));
+		mrow.appendChild(mo(t.sign));
+		appendTerm(mrow, "", t.magnitude, t.dimensions);
 	}
 
 	return math;

@@ -85,7 +85,7 @@ Multivector.prototype.outputFormat = function() {
 		return {
 			coefficient: t.coefficient,
 			sign: t.coefficient >= 0? '+': '-',
-			abs_coefficient: Math.abs(t.coefficient),
+			magnitude: Math.abs(t.coefficient),
 			dimensions: t.dimensions
 		}
 	}
