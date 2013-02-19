@@ -38,11 +38,11 @@ exports.testOutputFormat = function(test) {
 	var s = algebra.v(1, 5, -1).outputFormat();
 	assert.equal(s.length, 3);
 	assert.deepEqual(s, [
-		{coefficient: 1, abs_coefficient: 1, sign: '+',
+		{coefficient: 1, magnitude: 1, sign: '+',
 			dimensions: [1]},
-		{coefficient: 5, abs_coefficient: 5, sign: '+',
+		{coefficient: 5, magnitude: 5, sign: '+',
 			dimensions: [2]},
-		{coefficient: -1, abs_coefficient: 1, sign: '-',
+		{coefficient: -1, magnitude: 1, sign: '-',
 			dimensions: [3]},
 		]);	
 	test.done();
