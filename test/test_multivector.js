@@ -84,6 +84,24 @@ exports.testDot = function(test) {
 	test.done();
 };
 
+exports.testWedge = function(test) {
+	// Student guide, page 8.
+	var x = algebra.v(4, 0, 1),
+	    y = algebra.v(3, 1, 0);
+	test.equal(x.wedge(y).toString(), "(4 e12) + (-3 e13) + (-1 e23)");
+
+	test.done();
+};
+
+
+exports.testProduct = function(test) {
+	var x = algebra.v(4, 0, 1),
+	    y = algebra.v(3, 1, 0);
+	test.equal(x.mult(y).toString(),
+		"(12 e) + (4 e12) + (-3 e13) + (-1 e23)");
+	test.done();
+};
+
 exports.testSort = function(test) {
 	// TODO: This can be improved once we can build 2-vectors
 	var mv = algebra.v(2, 3, 4).plus(algebra.s(1)),
