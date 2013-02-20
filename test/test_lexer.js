@@ -1,6 +1,4 @@
-var lexer = require('../js/lexer.js'),
-    assert = require('assert');
-
+var lexer = require('../js/lexer.js');
 function flattenTokens(tokens) {
 	var out = [];
 	var k, t;
@@ -31,7 +29,7 @@ function tokenize(input) {
 
 exports.testSimple = function(test) {
 	var t = tokenize(" foo ");
-	assert.equal(flattenTokens(t), "IDENTIFIER foo, EOF");
+	test.equal(flattenTokens(t), "IDENTIFIER foo, EOF");
 	test.done();
 };
 
@@ -47,7 +45,7 @@ exports.testNumbers = function(test) {
 	];
 	for (k = 0; k < cases.length; k++) {
 		t = flattenTokens(tokenize(cases[k][0]));
-		assert.equal(t, cases[k][1]);
+		test.equal(t, cases[k][1]);
 	}
 	test.done();
 };
@@ -61,7 +59,7 @@ exports.testVectors = function(test) {
 	];
 	for (k = 0; k < cases.length; k++) {
 		t = flattenTokens(tokenize(cases[k][0]));
-		assert.equal(t, cases[k][1]);
+		test.equal(t, cases[k][1]);
 	}
 	test.done();
 };
@@ -72,7 +70,7 @@ exports.testOps = function(test) {
 	var expected = ["IDENTIFIER foo", "OPERATOR /", "OPEN_PAREN (",
 	                "IDENTIFIER a", "OPERATOR +", "IDENTIFIER b",
 	                "CLOSE_PAREN )", "EOF"].join(", ");
-	assert.equal(flattenTokens(t), expected);
+	test.equal(flattenTokens(t), expected);
 	test.done();
 };
 
@@ -80,7 +78,7 @@ exports.testLongOps = function(test) {
 	var t = tokenize(" a ^^ c ** 2 ");
 	var expected = ["IDENTIFIER a", "OPERATOR ^^", "IDENTIFIER c",
 	                "OPERATOR **", "NUMBER 2", "EOF"].join(", ");
-	assert.equal(flattenTokens(t), expected);
+	test.equal(flattenTokens(t), expected);
 	test.done();
 };
 
@@ -88,7 +86,7 @@ exports.testError = function(test) {
 	var t = tokenize("5 + #3");
 	var expected = ["NUMBER 5", "OPERATOR +", "ERROR #3",
 	                "EOF"].join(", ");
-	assert.equal(flattenTokens(t), expected);
+	test.equal(flattenTokens(t), expected);
 	test.done();
 };
 
@@ -97,15 +95,15 @@ exports.testAssignment = function(test) {
 	var expected = ["IDENTIFIER a", "OPERATOR =", "IDENTIFIER sin",
 	                "OPEN_PAREN (", "IDENTIFIER pi", "CLOSE_PAREN )",
 	                "EOF"].join(", ");
-	assert.equal(flattenTokens(t), expected);
+	test.equal(flattenTokens(t), expected);
 	test.done();
 };
 
 exports.testPosition = function(test) {
 	var t = tokenize("    a");
-	assert.equal(t[0].pos, 4);
-	assert.equal(t[0].value, "a");
-	assert.equal(t[1].pos, 5);
-	assert.equal(t[1].name, "EOF");
+	test.equal(t[0].pos, 4);
+	test.equal(t[0].value, "a");
+	test.equal(t[1].pos, 5);
+	test.equal(t[1].name, "EOF");
 	test.done();
 }

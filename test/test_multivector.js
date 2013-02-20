@@ -1,17 +1,15 @@
-var algebra = require('../js/algebra.js'),
-    assert = require('assert');
-
+var algebra = require('../js/algebra.js');
 
 exports.testv = function(test) {
 	var v = algebra.v(1, 2, -1);
-	assert.ok(v instanceof algebra.Multivector);
-	assert.equal(v.terms.length, 3, "correct number of terms");
+	test.ok(v instanceof algebra.Multivector);
+	test.equal(v.terms.length, 3, "correct number of terms");
 	test.done();
 };
 
 exports.testConstructorFiltering = function(test) {
 	var v = algebra.v(1, 0, 1);
-	assert.equal(v.terms.length, 2, "remove zeroes");
+	test.equal(v.terms.length, 2, "remove zeroes");
 	test.done();
 };
 
@@ -19,7 +17,7 @@ exports.testZeroValue = function(test) {
 	var a = algebra.v(1),
 	    b = algebra.v(-1),
 	    c = a.plus(b);
-	assert.deepEqual(c.terms, [{
+	test.deepEqual(c.terms, [{
 		coefficient: 0,
 		dimensions: []
 	}]);
@@ -30,14 +28,14 @@ exports.testZeroValue = function(test) {
 
 exports.testToString = function(test) {
 	var s = algebra.v(1, 5, -1).toString();
-	assert.equal(s, "(1 e1) + (5 e2) + (-1 e3)");
+	test.equal(s, "(1 e1) + (5 e2) + (-1 e3)");
 	test.done();
 }
 
 exports.testOutputFormat = function(test) {
 	var s = algebra.v(1, 5, -1).outputFormat();
-	assert.equal(s.length, 3);
-	assert.deepEqual(s, [
+	test.equal(s.length, 3);
+	test.deepEqual(s, [
 		{coefficient: 1, magnitude: 1, sign: '+',
 			dimensions: [1]},
 		{coefficient: 5, magnitude: 5, sign: '+',
@@ -54,9 +52,9 @@ exports.testSum = function(test) {
 	    v2 = algebra.v(2, 3, -3),
 	    vs = v1.plus(v2);
 	
-	assert.equal(vs.terms.length, 2, 'combine terms');
-	assert.equal(vs.terms[0].coefficient, 3, 'first coeff correct');
-	assert.equal(vs.terms[1].coefficient, 5, 'second coeff correct');
+	test.equal(vs.terms.length, 2, 'combine terms');
+	test.equal(vs.terms[0].coefficient, 3, 'first coeff correct');
+	test.equal(vs.terms[1].coefficient, 5, 'second coeff correct');
 	
 	test.done();
 };
@@ -65,16 +63,16 @@ exports.testScalarSum = function(test) {
 	var s1 = algebra.s(1),
 	    s2 = algebra.s(2),
 	    ss = s1.plus(s2);
-	assert.equal(ss.terms[0].coefficient, 3, '1 + 2 = 3');
+	test.equal(ss.terms[0].coefficient, 3, '1 + 2 = 3');
 	test.done();
 };
 
 exports.testNeg = function(test) {
 	var v = algebra.v(1, 2, 3).neg();
 	
-	assert.equal(v.terms[0].coefficient, -1, 'first coeff correct');
-	assert.equal(v.terms[1].coefficient, -2, 'second coeff correct');
-	assert.equal(v.terms[2].coefficient, -3, 'second coeff correct');
+	test.equal(v.terms[0].coefficient, -1, 'first coeff correct');
+	test.equal(v.terms[1].coefficient, -2, 'second coeff correct');
+	test.equal(v.terms[2].coefficient, -3, 'second coeff correct');
 	
 	test.done();
 };
@@ -82,7 +80,7 @@ exports.testNeg = function(test) {
 exports.testDot = function(test) {
 	var v = algebra.v(1, 2, 3);
 	var ans = v.dot(v);
-	assert.equal(ans.toString(), "(14 e)");
+	test.equal(ans.toString(), "(14 e)");
 	test.done();
 };
 
