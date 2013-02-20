@@ -25,7 +25,7 @@ Term.prototype.multiply = function(scale, other) {
 	return new Term(c, dims);
 };
 
-Term.combine_bases = function (terms) {
+Term.simplifySum = function (terms) {
 	var k, coeffs = {};
 	var key, value;
 	var combined = [];
@@ -65,7 +65,7 @@ Term.cmp = function(a, b) {
 function Multivector(terms) {
 	var k;
 	this.terms = [];
-	terms = Term.combine_bases(terms);
+	terms = Term.simplifySum(terms);
 
 	for (k = 0; k < terms.length; k++)
 		if (!terms[k].vanishes())
