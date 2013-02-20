@@ -2,12 +2,28 @@ var exports = exports || {};
 var require = require || function() {};
 var permutations = permutations || require("./permutations.js");
 
-function Term(coefficient, dimensions) {
-	this.coefficient = coefficient;
-	this.dimensions = dimensions.slice(0);
+function simplifyProduct(dimensions) {
+	// Assume sorted input.
+	// Assume that every e_i^2 = 1.
+	var k = 0, out = [];
+	while (k < dimensions.length) {
+		if (k + 1 < dimensions.length && dimensions[k] == dimensions[k+1]) {
+			k = k + 2;
+			continue;
+		}
+		out.push(dimensions[k]);
+		k++;
+	}
+	return out;
+}
 
-	var n = permutations.swaps(this.dimensions);
+function Term(coefficient, dims) {
+	var dimensions = dims.slice(0);
+	this.coefficient = coefficient;
+
+	var n = permutations.swaps(dimensions);
 	this.coefficient *= n;
+	this.dimensions = simplifyProduct(dimensions);
 }
 
 Term.prototype.toString = function() {
@@ -161,7 +177,8 @@ function s(coefficient) {
 var algebra = {
 	Multivector: Multivector,
 	v: v,
-	s: s
+	s: s,
+	simplifyProduct: simplifyProduct
 };
 
 

@@ -98,3 +98,21 @@ exports.testSort = function(test) {
 	test.expect(4);
 	test.done();
 };
+
+// Temporary
+exports.testSimplifyProduct = function(test) {
+	var k, exp, act, tests = [
+		[[1,1], []],
+		[[1,1,2], [2]],
+		[[1,2,2], [1]],
+		[[1,1,1,2,2,3,4,4], [1,3]],
+
+	];
+	for (k = 0; k < tests.length; k++) {
+		exp = tests[k][1];
+		act = algebra.simplifyProduct(tests[k][0]);
+		test.deepEqual(act, exp);
+	}
+	test.expect(tests.length);
+	test.done();
+}
