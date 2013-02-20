@@ -77,29 +77,31 @@ exports.testNeg = function(test) {
 	test.done();
 };
 
-exports.testDot = function(test) {
-	var v = algebra.v(1, 2, 3);
-	var ans = v.dot(v);
-	test.equal(ans.toString(), "(14 e)");
-	test.done();
-};
+exports.products = {
+	testDot: function(test) {
+		var v = algebra.v(1, 2, 3);
+		var ans = v.dot(v);
+		test.equal(ans.toString(), "(14 e)");
+		test.done();
+	},
 
-exports.testWedge = function(test) {
-	// Student guide, page 8.
-	var x = algebra.v(4, 0, 1),
-	    y = algebra.v(3, 1, 0);
-	test.equal(x.wedge(y).toString(), "(4 e12) + (-3 e13) + (-1 e23)");
+	testWedge: function(test) {
+		// Student guide, page 8.
+		var x = algebra.v(4, 0, 1),
+		    y = algebra.v(3, 1, 0);
+		test.equal(x.wedge(y).toString(), "(4 e12) + (-3 e13) + (-1 e23)");
 
-	test.done();
-};
+		test.done();
+	},
 
+	testProduct: function(test) {
+		var x = algebra.v(4, 0, 1),
+		    y = algebra.v(3, 1, 0);
+		test.equal(x.mult(y).toString(),
+			"(12 e) + (4 e12) + (-3 e13) + (-1 e23)");
+		test.done();
+	},
 
-exports.testProduct = function(test) {
-	var x = algebra.v(4, 0, 1),
-	    y = algebra.v(3, 1, 0);
-	test.equal(x.mult(y).toString(),
-		"(12 e) + (4 e12) + (-3 e13) + (-1 e23)");
-	test.done();
 };
 
 exports.testSort = function(test) {
