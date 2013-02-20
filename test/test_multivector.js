@@ -45,36 +45,38 @@ exports.testOutputFormat = function(test) {
 	test.done();
 }
 
+exports.sums = {
+	testSum: function(test) {
+		var v1 = algebra.v(1, 2, 3),
+		    v2 = algebra.v(2, 3, -3),
+		    vs = v1.plus(v2);
 
-exports.testSum = function(test) {
-	var v1 = algebra.v(1, 2, 3),
-	    v2 = algebra.v(2, 3, -3),
-	    vs = v1.plus(v2);
-	
-	test.equal(vs.terms.length, 2, 'combine terms');
-	test.equal(vs.terms[0].coefficient, 3, 'first coeff correct');
-	test.equal(vs.terms[1].coefficient, 5, 'second coeff correct');
-	
-	test.done();
+		test.equal(vs.terms.length, 2, 'combine terms');
+		test.equal(vs.terms[0].coefficient, 3, 'first coeff correct');
+		test.equal(vs.terms[1].coefficient, 5, 'second coeff correct');
+
+		test.done();
+	},
+
+	testScalarSum: function(test) {
+		var s1 = algebra.s(1),
+		    s2 = algebra.s(2),
+		    ss = s1.plus(s2);
+		test.equal(ss.terms[0].coefficient, 3, '1 + 2 = 3');
+		test.done();
+	},
+
+	testNeg: function(test) {
+		var v = algebra.v(1, 2, 3).neg();
+
+		test.equal(v.terms[0].coefficient, -1, 'first coeff correct');
+		test.equal(v.terms[1].coefficient, -2, 'second coeff correct');
+		test.equal(v.terms[2].coefficient, -3, 'second coeff correct');
+
+		test.done();
+	}
 };
 
-exports.testScalarSum = function(test) {
-	var s1 = algebra.s(1),
-	    s2 = algebra.s(2),
-	    ss = s1.plus(s2);
-	test.equal(ss.terms[0].coefficient, 3, '1 + 2 = 3');
-	test.done();
-};
-
-exports.testNeg = function(test) {
-	var v = algebra.v(1, 2, 3).neg();
-	
-	test.equal(v.terms[0].coefficient, -1, 'first coeff correct');
-	test.equal(v.terms[1].coefficient, -2, 'second coeff correct');
-	test.equal(v.terms[2].coefficient, -3, 'second coeff correct');
-	
-	test.done();
-};
 
 exports.products = {
 	testDot: function(test) {
