@@ -145,6 +145,9 @@ Multivector.prototype.scaledGeometricProduct = function(scale, other) {
 Multivector.prototype.mult = function(other) {
 	return this.scaledGeometricProduct(1, other);
 };
+
+// Operations for primarily vectors
+// The vectorness isn't strictly enforced at this point
 Multivector.prototype.dot = function(that) {
 	var AB = this.scaledGeometricProduct(1/2, that);
 	var BA = that.scaledGeometricProduct(1/2, this);
@@ -154,6 +157,11 @@ Multivector.prototype.wedge = function(that) {
 	var AB = this.scaledGeometricProduct(1/2, that);
 	var _BA = that.scaledGeometricProduct(-1/2, this);
 	return AB.plus(_BA);
+};
+Multivector.prototype.div = function(that) {
+	// TODO FIX
+	var norm = that.dot(that).terms[0].coefficient;
+	return this.scaledGeometricProduct(1/norm, that);
 };
 
 

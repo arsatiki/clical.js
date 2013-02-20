@@ -25,7 +25,6 @@ exports.testZeroValue = function(test) {
 	test.done();
 };
 
-
 exports.testToString = function(test) {
 	var s = algebra.v(1, 5, -1).toString();
 	test.equal(s, "(1 e1) + (5 e2) + (-1 e3)");
@@ -101,6 +100,17 @@ exports.products = {
 			"(12 e) + (4 e12) + (-3 e13) + (-1 e23)");
 		test.done();
 	},
+
+	testDiv: function(test) {
+		var x = algebra.v(4, 6, 8),
+		    y = algebra.v(1, 0, 1);
+
+		test.equal(x.div(x).toString(), "(1 e)");
+		test.equal(y.div(y).toString(), "(1 e)");
+		test.equal(x.div(y).toString(),
+			"(6 e) + (-3 e12) + (-2 e13) + (3 e23)");
+		test.done();
+	}
 
 };
 
