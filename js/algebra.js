@@ -17,7 +17,13 @@ Term.prototype.toString = function() {
 Term.prototype.vanishes = function() { return this.coefficient == 0; };
 Term.prototype.neg = function () {
 	return new Term(-this.coefficient, this.dimensions);
-}
+};
+Term.prototype.multiply = function(scale, other) {
+	var c, dims;
+	c = scale * this.coefficient * other.coefficient;
+	dims = this.dimensions.concat(other.dimensions);
+	return new Term(c, dims);
+};
 
 Term.combine_bases = function (terms) {
 	var k, coeffs = {};
@@ -109,6 +115,30 @@ Multivector.prototype.neg = function() {
 
 	return new Multivector(terms);
 }
+Multivector.prototype.scaledGeometricProduct = function(scale, other) {
+	var i, j, terms = [], a, b;
+	for (i = 0; i < this.terms.length; i++) {
+		a = this.terms[i];
+		for (j = 0; j < other.terms.length; j++) {
+			b = other.terms[j];
+			terms.push(a.multiply(scale, b));
+		}
+	}
+	return new Multivector(terms);
+};
+Multivector.prototype.mult = function(other) {
+	return this.scaledGeometricProduct(1, other);
+};
+Multivector.prototype.dot = function(that) {
+	var AB = this.scaledGeometricProduct(1/2, that);
+	var BA = that.scaledGeometricProduct(1/2, this);
+	return AB.plus(BA);
+};
+Multivector.prototype.wedge = function(that) {
+	var AB = this.scaledGeometricProduct(1/2, that);
+	var _BA = that.scaledGeometricProduct(-1/2, this);
+	return AB.plus(_BA);
+};
 
 
 /* Helper function for creating vectors */

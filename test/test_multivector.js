@@ -79,6 +79,12 @@ exports.testNeg = function(test) {
 	test.done();
 };
 
+exports.testDot = function(test) {
+	var v = algebra.v(1, 2, 3);
+	var ans = v.dot(v);
+	assert.equal(ans.toString(), "(14 e)");
+	test.done();
+};
 
 exports.testSort = function(test) {
 	// TODO: This can be improved once we can build 2-vectors
