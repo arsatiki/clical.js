@@ -40,26 +40,27 @@ exports.internalConsistency = {
 	}
 };
 
+exports.output = {
+	testToString: function(test) {
+		var s = algebra.v(1, 5, -1).toString();
+		test.equal(s, "(1 e1) + (5 e2) + (-1 e3)");
+		test.done();
+	},
 
-exports.testToString = function(test) {
-	var s = algebra.v(1, 5, -1).toString();
-	test.equal(s, "(1 e1) + (5 e2) + (-1 e3)");
-	test.done();
-}
-
-exports.testOutputFormat = function(test) {
-	var s = algebra.v(1, 5, -1).outputFormat();
-	test.equal(s.length, 3);
-	test.deepEqual(s, [
-		{coefficient: 1, magnitude: 1, sign: '+',
-			dimensions: [1]},
-		{coefficient: 5, magnitude: 5, sign: '+',
-			dimensions: [2]},
-		{coefficient: -1, magnitude: 1, sign: '-',
-			dimensions: [3]},
-		]);	
-	test.done();
-}
+	testOutputFormat: function(test) {
+		var s = algebra.v(1, 5, -1).outputFormat();
+		test.equal(s.length, 3);
+		test.deepEqual(s, [
+			{coefficient: 1, magnitude: 1, sign: '+',
+				dimensions: [1]},
+			{coefficient: 5, magnitude: 5, sign: '+',
+				dimensions: [2]},
+			{coefficient: -1, magnitude: 1, sign: '-',
+				dimensions: [3]},
+			]);	
+		test.done();
+	}
+};
 
 exports.sums = {
 	testSum: function(test) {
