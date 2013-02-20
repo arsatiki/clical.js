@@ -3,9 +3,37 @@ var parser = require("../grammar").parser;
 var lexer = parser.lexer;
 
 exports.testNOP = function(test) {
-    lexer.setInput("e123");
-    var t = lexer.lex();
-    test.equal(t, "ID");
+    lexer.setInput("e123 (   ) ** * x~ blerp 2e+12 2e12 1E10 a,b");
+    test.equal(lexer.lex(), "ID");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "LPAREN");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "RPAREN");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "POWER");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "PRODUCT");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "ID");
+    test.equal(lexer.lex(), "CONJUGATE");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "ID");
+    test.equal(lexer.lex(), "_");
+    // 2e+12
+    test.equal(lexer.lex(), "NUMBER");
+    test.equal(lexer.lex(), "_");
+    // 2
+    test.equal(lexer.lex(), "NUMBER");
+    // e12
+    test.equal(lexer.lex(), "ID");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "NUMBER");
+    test.equal(lexer.lex(), "_");
+    test.equal(lexer.lex(), "ID");
+    test.equal(lexer.lex(), "COMMA");
+    test.equal(lexer.lex(), "ID");
+    test.equal(lexer.lex(), "EOF");
+
     test.done();
 }
 
