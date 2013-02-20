@@ -51,9 +51,8 @@ exports.sums = {
 		    v2 = algebra.v(2, 3, -3),
 		    vs = v1.plus(v2);
 
+		test.deepEqual(vs, algebra.v(3, 5, 0));
 		test.equal(vs.terms.length, 2, 'combine terms');
-		test.equal(vs.terms[0].coefficient, 3, 'first coeff correct');
-		test.equal(vs.terms[1].coefficient, 5, 'second coeff correct');
 
 		test.done();
 	},
@@ -68,11 +67,7 @@ exports.sums = {
 
 	testNeg: function(test) {
 		var v = algebra.v(1, 2, 3).neg();
-
-		test.equal(v.terms[0].coefficient, -1, 'first coeff correct');
-		test.equal(v.terms[1].coefficient, -2, 'second coeff correct');
-		test.equal(v.terms[2].coefficient, -3, 'second coeff correct');
-
+		test.deepEqual(v, algebra.v(-1, -2, -3));
 		test.done();
 	}
 };
