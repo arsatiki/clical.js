@@ -7,23 +7,39 @@ exports.testv = function(test) {
 	test.done();
 };
 
-exports.testConstructorFiltering = function(test) {
-	var v = algebra.v(1, 0, 1);
-	test.equal(v.terms.length, 2, "remove zeroes");
-	test.done();
+exports.internalConsistency = {
+	testConstructorFiltering: function(test) {
+		var v = algebra.v(1, 0, 1);
+		test.equal(v.terms.length, 2, "remove zeroes");
+		test.done();
+	},
+
+	testZeroValue: function(test) {
+		var a = algebra.v(1),
+		    b = algebra.v(-1),
+		    c = a.plus(b);
+		test.deepEqual(c.terms, [{
+			coefficient: 0,
+			dimensions: []
+		}]);
+
+		test.done();
+	},
+
+	testSort: function(test) {
+		// TODO: This can be improved once we can build 2-vectors
+		var mv = algebra.v(2, 3, 4).plus(algebra.s(1)),
+			expected = [1, 2, 3, 4],
+			k;
+
+		for (k = 0; k < 4; k++)
+			test.equal(mv.terms[k].coefficient, expected[k]);
+
+		test.expect(4);
+		test.done();
+	}
 };
 
-exports.testZeroValue = function(test) {
-	var a = algebra.v(1),
-	    b = algebra.v(-1),
-	    c = a.plus(b);
-	test.deepEqual(c.terms, [{
-		coefficient: 0,
-		dimensions: []
-	}]);
-		
-	test.done();
-};
 
 exports.testToString = function(test) {
 	var s = algebra.v(1, 5, -1).toString();
@@ -85,8 +101,9 @@ exports.products = {
 		// Student guide, page 8.
 		var x = algebra.v(4, 0, 1),
 		    y = algebra.v(3, 1, 0);
-		test.equal(x.wedge(y).toString(), "(4 e12) + (-3 e13) + (-1 e23)");
 
+		test.equal(x.wedge(y).toString(),
+			"(4 e12) + (-3 e13) + (-1 e23)");
 		test.done();
 	},
 
@@ -109,19 +126,6 @@ exports.products = {
 		test.done();
 	}
 
-};
-
-exports.testSort = function(test) {
-	// TODO: This can be improved once we can build 2-vectors
-	var mv = algebra.v(2, 3, 4).plus(algebra.s(1)),
-		expected = [1, 2, 3, 4],
-		k;
-	
-	for (k = 0; k < 4; k++)
-		test.equal(mv.terms[k].coefficient, expected[k], "coeff" + k);
-
-	test.expect(4);
-	test.done();
 };
 
 // Temporary
