@@ -1,7 +1,11 @@
 // FIXME not possibly the best location for thi
 var parser = require("../grammar").parser;
+var yy = require("../js/yy").yy;
 
-exports.testSimple = function(test) {
+// Just a simple test that the parser recognises the language
+
+exports.testRecognition = function(test) {
+	parser.yy = yy;
 	parser.parse("a");
 	parser.parse("e123");
 	parser.parse("x + y");
@@ -11,5 +15,6 @@ exports.testSimple = function(test) {
 	parser.parse("(x)");
 	parser.parse("( x )");
 	parser.parse("x ");
+	parser.parse("x / y + 1");
 	test.done();
 }

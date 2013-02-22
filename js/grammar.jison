@@ -30,13 +30,17 @@
 %nonassoc WS
 %nonassoc ASSIGN
 %left PLUS MINUS
+%left PRODUCT OUTER DIV BACKDIV
+%nonassoc INNER
+%right POWER OUTER_POWER
 %left CONJUGATE INVOLUTION
 %left UMINUS
 
 %%
 statement
-	: exp opt-ws EOF
+	: exp opt-ws EOF -> $exp
 	| identifier ASSIGN exp opt-ws EOF
+	   -> yy.assignment($identifier, $exp)
         ;
 
 opt-ws
@@ -48,55 +52,52 @@ opt-ws
 // also diffrentiate between run-of-the-mill identifiers and
 // basis vectors.
 identifier
-        : ID -> yytext
+        : ID -> yy.identifier(yytext)
 	;
 
 number
 	: NUMBER -> parseFloat(yytext)
 	;
 
+// TODO build a list
+explist
+	: exp
+	| exp COMMA explist;
+
 exp
 	: number
 	| identifier
-	| NUMBER ID // E.g. 2e12, but also 2x; TODO
-	| exp INVOLUTION // TODO
-	| exp CONJUGATE // TODO
-	| MINUS exp %prec UMINUS   // TODO
+	| number identifier
+	  -> yy.multiply($number, $identifier)
+	| exp INVOLUTION
+	  -> yy.involute($exp)
+	| exp CONJUGATE
+	  -> yy.conjugate($exp)
+	| MINUS exp %prec UMINUS
+	  -> yy.negate($exp)
 	| exp WS exp // a multiplication; TODO
-
+	  -> yy.multiply($exp1, $exp2);
 	| LPAREN exp RPAREN -> $exp
-        | exp PLUS exp -> $exp1 + $exp2 // TODO real impl
+
+        | exp PLUS exp
+	   -> yy.add($exp1,$exp2)
+        | exp MINUS exp
+	   -> yy.subtract($exp1,$exp2)
+        | exp POWER exp
+	   -> yy.power($exp1,$exp2)
+        | exp OUTER_POWER exp
+	   -> yy.outerPower($exp1,$exp2)
+        | exp PRODUCT exp
+	   -> yy.multiply($exp1,$exp2)
+        | exp INNER exp
+	   -> yy.innerProduct($exp1,$exp2)
+        | exp OUTER exp
+	   -> yy.outerProduct($exp1,$exp2)
+        | exp DIV exp
+	   -> yy.div($exp1,$exp2)
+        | exp BACKDIV exp
+	   -> yy.backdiv($exp1,$exp2)
+
+	| id LPAREN explist RPAREN
+	  -> yy.funcall(id, explist);
 	;
-/*
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-	|
-*/
