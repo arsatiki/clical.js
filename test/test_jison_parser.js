@@ -16,5 +16,6 @@ exports.testRecognition = function(test) {
 	parser.parse("( x )");
 	parser.parse("x ");
 	parser.parse("x / y + 1");
+	parser.parse("Pu(x,1)");
 	test.done();
 }

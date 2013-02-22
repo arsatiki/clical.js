@@ -59,10 +59,12 @@ number
 	: NUMBER -> parseFloat(yytext)
 	;
 
-// TODO build a list
+// NOTE reverse order!
 explist
-	: exp
-	| exp COMMA explist;
+	: exp -> [$exp]
+	| exp COMMA explist
+	  { $explist.push($exp); $$ = $explist; }
+	;
 
 exp
 	: number
@@ -98,6 +100,6 @@ exp
         | exp BACKDIV exp
 	   -> yy.backdiv($exp1,$exp2)
 
-	| id LPAREN explist RPAREN
-	  -> yy.funcall(id, explist);
+	| identifier LPAREN explist RPAREN
+	  -> yy.funcall($identifier, $explist);
 	;
