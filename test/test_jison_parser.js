@@ -3,7 +3,7 @@ var parser = require("../js/grammar").parser;
 // Just a simple test that the parser recognises the language
 exports.testRecognition = function(test) {
 	parser.yy = {
-		assignment: function (identifier, exp) {},
+		assignment: function (identifier, exp, silent) {},
 		identifier: function (name) {},
 		number: parseFloat,
 
@@ -48,7 +48,7 @@ exports.testFuncall = function(test) {
 			test.equal(id, "Pu");
 			test.deepEqual(args, ["x", 1]);
 		},
-		assignment: function(id, exp) {
+		assignment: function(id, exp, silent) {
 			test.equal(id, "ans");
 		},
 		identifier: function(name) {
@@ -61,7 +61,7 @@ exports.testFuncall = function(test) {
 
 exports.testTrivialPredecence = function(test) {
 	parser.yy = {
-		assignment: function(id, exp) {
+		assignment: function(id, exp, silent) {
 			test.equal(id, "ans");
 		},
 		number: parseFloat,
@@ -84,7 +84,7 @@ exports.testTrivialPredecence = function(test) {
 exports.testWhitespaceMultiplication = function(test) {
 	parser.yy = {
 		number: parseFloat,
-		assignment: function() {},
+		assignment: function(id, exp, silent) {},
 		add: function(exp1, exp2) {
 			var result = exp1 + exp2;
 			test.equal(result, 7);
@@ -97,4 +97,20 @@ exports.testWhitespaceMultiplication = function(test) {
 	parser.parse("2 3 + 1");
 	test.done();
 
+}
+
+exports.testEchoSuppression = function(test) {
+	var expected = undefined;
+	parser.yy = {
+		number: parseFloat,
+		identifier: function(name) {},
+		assignment: function(id, exp, silent) {
+			test.equal(silent, expected);
+		}
+	}
+	expected = false;
+	parser.parse("a = b");
+	expected = true;
+	parser.parse("a = b;");
+	test.done();
 }
