@@ -2,6 +2,8 @@ var exports = exports || {};
 var require = require || function() {};
 var permutations = permutations || require("./permutations.js");
 
+var algebra = function() {
+
 function simplifyProduct(dimensions) {
 	// Assume sorted input.
 	// Assume that every e_i^2 = 1.
@@ -187,15 +189,17 @@ function e(dimensions) {
 	return new Multivector([new Term(1, dimensions)]);
 }
 
-var algebra = {
-	Multivector: Multivector,
-	v: v,
-	s: s,
-	e: e,
-	simplifyProduct: simplifyProduct
+
+var visible = {
+	v: v, s:s, e:e,
+	_private: {
+		simplifyProduct: simplifyProduct,
+	}
 };
 
+return visible;
 
+}();
 
 for (p in algebra)
 	if (algebra.hasOwnProperty(p))

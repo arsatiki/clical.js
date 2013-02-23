@@ -2,7 +2,7 @@ var algebra = require('../js/algebra.js');
 
 exports.testv = function(test) {
 	var v = algebra.v(1, 2, -1);
-	test.ok(v instanceof algebra.Multivector);
+	test.equal(v.toString(), "(1 e1) + (2 e2) + (-1 e3)");
 	test.equal(v.terms.length, 3, "correct number of terms");
 	test.done();
 };
@@ -129,7 +129,6 @@ exports.products = {
 
 };
 
-// Temporary
 exports.testSimplifyProduct = function(test) {
 	var k, exp, act, tests = [
 		[[1,1], []],
@@ -140,7 +139,7 @@ exports.testSimplifyProduct = function(test) {
 	];
 	for (k = 0; k < tests.length; k++) {
 		exp = tests[k][1];
-		act = algebra.simplifyProduct(tests[k][0]);
+		act = algebra._private.simplifyProduct(tests[k][0]);
 		test.deepEqual(act, exp);
 	}
 	test.expect(tests.length);

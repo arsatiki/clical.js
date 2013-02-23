@@ -20,12 +20,12 @@ var evaluator = function() {
 		},
 		identifier: function (name) {
 			if (looksLikeBase(name))
-				return e(parseBase(name));
+				return algebra.e(parseBase(name));
 			
 			return global_scope[name];
 		},
 		number: function(n) {
-			return s(parseFloat(n));
+			return algebra.s(parseFloat(n));
 		},
 
 		negate: function (exp) { return exp.neg(); },
