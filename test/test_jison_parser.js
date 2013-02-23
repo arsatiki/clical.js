@@ -20,7 +20,7 @@ exports.testRecognition = function(test) {
 	test.done();
 }
 
-exports.textFuncall = function(test) {
+exports.testFuncall = function(test) {
 	parser.yy = {
 		funcall: function(id, args) {
 			test.equal(id, "Pu");
@@ -31,5 +31,23 @@ exports.textFuncall = function(test) {
 		}
         }
 	parser.parse("Pu(x,1)");
+	test.done();
+}
+
+exports.testTrivialPredecence = function(test) {
+	parser.yy = {
+		negate: function(exp) {
+			return -exp;
+		},
+		add: function(exp1, exp2) {
+			var result = exp1 + exp2;
+			test.equal(result, -4);
+		},
+		multiply: function(exp1, exp2) {
+			return exp1 * exp2;
+		}
+	}
+	parser.parse("5 * -1 + 1");
+	parser.parse("1 + -1 * 5");
 	test.done();
 }
