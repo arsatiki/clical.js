@@ -1,5 +1,3 @@
-var global_scope = {};
-
 function createMathElement(name) {
 	var MATHML = "http://www.w3.org/1998/Math/MathML";
 	return document.createElementNS(MATHML, name);
@@ -61,10 +59,6 @@ function toMathML(variable, mv) {
 	return math;
 }
 
-function eval_input(input, env) {
-	var ts = lookahead(lexer(input));
-	return evalStatement(ts, env);
-}
 
 function handle_input(event) {
 	var value = event.target.value;
@@ -72,8 +66,9 @@ function handle_input(event) {
 	
 	var item = $("<li/>");
 	var entry = $("<kbd/>").append("> " + value);
-	var variable = eval_input(value, global_scope);
-	var output = toMathML(variable, global_scope[variable]);
+	var statement = evaluator(value);
+	console.log(statement);
+	var output = toMathML(statement.var, statement.val);
 	item.append(entry).append(output);
 
 	$("#results").append(item);

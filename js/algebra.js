@@ -182,10 +182,16 @@ function s(coefficient) {
 	return new Multivector([term]);
 }
 
+/* Helper function for creating basis vectors */
+function e(dimensions) {
+	return new Multivector([new Term(1, dimensions)]);
+}
+
 var algebra = {
 	Multivector: Multivector,
 	v: v,
 	s: s,
+	e: e,
 	simplifyProduct: simplifyProduct
 };
 

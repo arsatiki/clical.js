@@ -13,11 +13,13 @@
   },
   "dependencies": {},
   "devDependencies": {
-	"nodeunit": "0.7.4"
+	"nodeunit": "0.7.4",
+	"jison": "0.4.2"
   },
   "private": true,
   "optionalDependencies": {},
   "scripts": {
+    "pretest": "jison --outfile js/grammar.js js/grammar.jison",
     "test": "nodeunit --reporter minimal test"
   },
   "main": "./js/main.js"
