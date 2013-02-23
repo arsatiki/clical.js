@@ -19,7 +19,7 @@
   "private": true,
   "optionalDependencies": {},
   "scripts": {
-    "pretest": "jison js/grammar.jison",
+    "pretest": "jison --outfile js/grammar.js js/grammar.jison",
     "test": "nodeunit --reporter minimal test"
   },
   "main": "./js/main.js"

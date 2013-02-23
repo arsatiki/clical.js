@@ -1,5 +1,4 @@
-// FIXME not possibly the best location for thi
-var parser = require("../grammar").parser;
+var parser = require("../js/grammar").parser;
 var yy = require("../js/yy").yy;
 
 // Just a simple test that the parser recognises the language
