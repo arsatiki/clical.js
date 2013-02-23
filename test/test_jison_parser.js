@@ -1,28 +1,30 @@
 var parser = require("../js/grammar").parser;
 
+var nop_yy = {
+	assignment: function (identifier, exp) {},
+	identifier: function (name) {},
+	number: parseFloat,
+
+	negate: function (exp) {},
+	conjugate: function (exp) {},
+	involute: function (exp) {},
+
+	add: function(exp1, exp2) {},
+	subtract: function(exp1, exp2) {},
+	power: function(exp1, exp2) {},
+	outerPower: function(exp1, exp2) {},
+	multiply: function(exp1, exp2) {},
+	innerProduct: function(exp1, exp2) {},
+	outerProduct: function(exp1, exp2) {},
+	div: function(exp1, exp2) {},
+	backdiv: function(exp1, exp2) {},
+
+	funcall: function(name, args) {}
+};
+
 // Just a simple test that the parser recognises the language
 exports.testRecognition = function(test) {
-	parser.yy = {
-		assignment: function (identifier, exp) {},
-		identifier: function (name) {},
-		number: parseFloat,
-
-		negate: function (exp) {},
-		conjugate: function (exp) {},
-		involute: function (exp) {},
-
-		add: function(exp1, exp2) {},
-		subtract: function(exp1, exp2) {},
-		power: function(exp1, exp2) {},
-		outerPower: function(exp1, exp2) {},
-		multiply: function(exp1, exp2) {},
-		innerProduct: function(exp1, exp2) {},
-		outerProduct: function(exp1, exp2) {},
-		div: function(exp1, exp2) {},
-		backdiv: function(exp1, exp2) {},
-
-		funcall: function(name, args) {}
-	};
+	parser.yy = nop_yy;
 
 	parser.parse("a");
 	parser.parse("e123");
@@ -35,13 +37,21 @@ exports.testRecognition = function(test) {
 	parser.parse("x ");
 	parser.parse("x / y + 1");
 	parser.parse("Pu(x,1)");
-	// More complex stuff
-	// TODO: Perhaps have these separate
+	test.done();
+}
+
+exports.testImplicitMultiplication = function(test) {
+	parser.yy = nop_yy;
+
 	parser.parse("a = 2e1 (e2 + e3)");
 	parser.parse("a = 2e1 (e2 + e3) ");
 	parser.parse("a = (2e1+e2)(e2 + e3)");
 	parser.parse("e1 2");
 	parser.parse("e1 2x");
+	parser.parse("1 2");
+	parser.parse("5(e1+e2)");
+	parser.parse("x y");
+	parser.parse("(e1+e2)x");
 	test.done();
 }
 
