@@ -27,15 +27,21 @@ exports.internalConsistency = {
 	},
 
 	testSort: function(test) {
-		// TODO: This can be improved once we can build 2-vectors
-		var mv = algebra.v(2, 3, 4).plus(algebra.s(1)),
-			expected = [1, 2, 3, 4],
-			k;
+		var bases = [
+			algebra.e([1, 2, 3]),
+			algebra.e([1,2]), algebra.e([2]), algebra.e([3]),
+			algebra.e([]), algebra.e([1,3]),
+			algebra.e([1]), algebra.e([2,3]),
+		];
+		var expected =
+			"(1 e) + (1 e1) + (1 e2) + (1 e3) + " +
+			"(1 e12) + (1 e13) + (1 e23) + (1 e123)";
+		var k, mv = bases[0];
 
-		for (k = 0; k < 4; k++)
-			test.equal(mv.terms[k].coefficient, expected[k]);
+		for (k = 1; k < bases.length; k++)
+			mv = mv.plus(bases[k]);
 
-		test.expect(4);
+		test.equal(mv.toString(), expected);
 		test.done();
 	}
 };
@@ -57,7 +63,7 @@ exports.output = {
 				dimensions: [2]},
 			{coefficient: -1, magnitude: 1, sign: '-',
 				dimensions: [3]},
-			]);	
+			]);
 		test.done();
 	}
 };
