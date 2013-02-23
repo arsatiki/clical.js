@@ -28,19 +28,20 @@ function Term(coefficient, dims) {
 	this.dimensions = simplifyProduct(dimensions);
 }
 
-Term.prototype.toString = function() {
-	return this.coefficient + " e" + this.dimensions.join("");
-};
-
-Term.prototype.vanishes = function() { return this.coefficient == 0; };
-Term.prototype.neg = function () {
-	return new Term(-this.coefficient, this.dimensions);
-};
-Term.prototype.multiply = function(scale, other) {
-	var c, dims;
-	c = scale * this.coefficient * other.coefficient;
-	dims = this.dimensions.concat(other.dimensions);
-	return new Term(c, dims);
+Term.prototype = {
+	toString: function() {
+		return this.coefficient + " e" + this.dimensions.join("");
+	},
+	vanishes: function() { return this.coefficient == 0; },
+	neg: function () {
+		return new Term(-this.coefficient, this.dimensions);
+	},
+	multiply: function(scale, other) {
+		var c, dims;
+		c = scale * this.coefficient * other.coefficient;
+		dims = this.dimensions.concat(other.dimensions);
+		return new Term(c, dims);
+	}
 };
 
 Term.simplifySum = function (terms) {
