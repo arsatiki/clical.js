@@ -11,6 +11,19 @@ Also, there is no immediate need to add any server backends for persistence. Sav
 
 After 1.0, extensions and radically new features such as visualization may be included.
 
+Version numbers
+---------------
+
+We'll follow the [semantic versioning][semver] approach. In a nutshell:
+* three-component version numbers: major.minor.patch
+* bugfixes increment patch number
+* new features increment minor version
+* backwards incompatible modifications increment major version
+
+These rules don't apply to 0.x.y versions, but we'll try to stick with them anyway.
+
+[semver]: http://semver.org/
+
 Practices
 =========
 
