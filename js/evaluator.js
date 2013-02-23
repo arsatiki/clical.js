@@ -7,7 +7,7 @@ var evaluator = function() {
 			return {'var': identifier, 'val': exp};
 		},
 		identifier: function (name) {
-			return global_scope[identifier];
+			return global_scope[name];
 		},
 
 		negate: function (exp) { return exp.neg(); },
@@ -25,10 +25,10 @@ var evaluator = function() {
 		power: function(exp1, exp2) { return undefined; },
 		outerPower: function(exp1, exp2) { return undefined; },
 		multiply: function(exp1, exp2) {
-			return exp1.mult(exp);
+			return exp1.mult(exp2);
 		},
 		innerProduct: function(exp1, exp2) {
-			return exp1.dot(exp);
+			return exp1.dot(exp2);
 		},
 		outerProduct: function(exp1, exp2) {
 			return exp1.wedge(exp2);
@@ -45,7 +45,7 @@ var evaluator = function() {
 		}
 	};
 
-	function parse() {
+	function parse(input) {
 		grammar.yy = yyobj;
 		return grammar.parse(input);
 	}
