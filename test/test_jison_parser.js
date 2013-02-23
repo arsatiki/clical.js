@@ -19,3 +19,17 @@ exports.testRecognition = function(test) {
 	parser.parse("Pu(x,1)");
 	test.done();
 }
+
+exports.textFuncall = function(test) {
+	parser.yy = {
+		funcall: function(id, args) {
+			test.equal(id, "Pu");
+			test.deepEqual(args, ["x", 1]);
+		},
+		identifier: function(name) {
+			return name;
+		}
+        }
+	parser.parse("Pu(x,1)");
+	test.done();
+}

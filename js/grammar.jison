@@ -59,7 +59,7 @@ number
 	: NUMBER -> parseFloat(yytext)
 	;
 
-// NOTE reverse order!
+// NOTE collected in reverse order, flipped in exp
 explist
 	: exp -> [$exp]
 	| exp COMMA explist
@@ -101,5 +101,5 @@ exp
 	   -> yy.backdiv($exp1,$exp2)
 
 	| identifier LPAREN explist RPAREN
-	  -> yy.funcall($identifier, $explist);
+	  -> yy.funcall($identifier, $explist.reverse())
 	;
