@@ -63,15 +63,17 @@ function toMathML(variable, mv) {
 function handle_input(event) {
 	var value = event.target.value;
 	event.target.value = "";
-	
-	var item = $("<li/>");
-	var entry = $("<kbd/>").append("> " + value);
 	var statement = evaluator(value);
-	var output = toMathML(statement.var, statement.val);
-	item.append(entry).append(output);
+	
+	var row = $("<li/>");
+	var entry = $("<kbd/>").append("> " + value);
 
-	$("#results").append(item);
-	MathJax.Hub.Queue(["Typeset", MathJax.Hub, item.get(0)]);
+	row.append(entry);
+	if (!statement.silent)
+		row.append(toMathML(statement.var, statement.val));
+
+	$("#results").append(row);
+	MathJax.Hub.Queue(["Typeset", MathJax.Hub, row.get(0)]);
 
 	event.stopPropagation();
 }
