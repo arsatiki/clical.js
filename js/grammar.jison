@@ -19,6 +19,7 @@
 \s*"\\"\s*                        return "BACKDIV";
 \s*","\s*                         return "COMMA";
 \s*"="\s*                         return "ASSIGN";
+\s*";"\s*                         return "SEMICOLON";
 // All remaining whitespace is probably semantic
 \s+                               return "WS";
 <<EOF>>                           return "EOF";
@@ -37,15 +38,22 @@
 
 %%
 statement
-	: exp opt-ws EOF
-	   { return yy.assignment("ans", $exp); }
-	| $ID ASSIGN exp opt-ws EOF
-	   { return yy.assignment($ID, $exp); }
+	: exp opt_sc EOF
+	   { return yy.assignment("ans", $exp, $opt_sc); }
+	| $ID ASSIGN exp opt_sc EOF
+	   { return yy.assignment($ID, $exp, $opt_sc); }
         ;
 
 opt-ws
 	: WS
 	|
+	;
+
+// semicolon eats whitespace around it, so no need to check for WS
+// if it is present
+opt_sc
+	: SEMICOLON -> true
+	| opt-ws -> false
 	;
 
 // TODO You'd probably want to create some sort of Var object;

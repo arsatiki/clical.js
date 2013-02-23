@@ -14,9 +14,10 @@ var evaluator = function() {
 	}
 
 	var yyobj = {
-		assignment: function (identifier, exp) {
+		assignment: function (identifier, exp, silent) {
 			global_scope[identifier] = exp;
-			return {'var': identifier, 'val': exp};
+			return {'var': identifier, 'val': exp,
+				'silent': silent};
 		},
 		identifier: function (name) {
 			if (looksLikeBase(name))
