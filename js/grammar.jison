@@ -27,10 +27,10 @@
 /* grammar section */
 %start statement
 
-%nonassoc WS
 %nonassoc ASSIGN
 %left PLUS MINUS
 %left PRODUCT OUTER DIV BACKDIV
+%nonassoc WS
 %nonassoc INNER
 %right POWER OUTER_POWER
 %left CONJUGATE INVOLUTION
