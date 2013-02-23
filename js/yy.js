@@ -1,25 +1,49 @@
-var yy = function(){
+var yy = function() {
+	var global_scope = {};
+
 	var yyobj = {
-		assignment: function (identifier, exp) {},
-		identifier: function (name) {},
+		assignment: function (identifier, exp) {
+			global_scope[identifier] = exp;
+		},
+		identifier: function (name) {
+			return global_scope[identifier];
+		},
 
-		negate: function (exp) {},
-		conjugate: function (exp) {},
-		involute: function (exp) {},
+		negate: function (exp) { return exp.neg(); }
+		},
 
-		add: function(exp1, exp2) {},
-		subtract: function(exp1, exp2) {},
-		power: function(exp1, exp2) {},
-		outerPower: function(exp1, exp2) {},
-		multiply: function(exp1, exp2) {},
-		innerProduct: function(exp1, exp2) {},
-		outerProduct: function(exp1, exp2) {},
-		div: function(exp1, exp2) {},
-		backdiv: function(exp1, exp2) {},
+		conjugate: function (exp) {return undefined;},
+		involute: function (exp) {return undefined;},
 
-		funcall: function(name, args) {}
+		add: function(exp1, exp2) {
+			return exp1.plus(exp2);
+		},
+		subtract: function(exp1, exp2) {
+			return exp1.minus(exp2);
+		},
+
+		power: function(exp1, exp2) { return undefined; },
+		outerPower: function(exp1, exp2) { return undefined; },
+		multiply: function(exp1, exp2) {
+			return exp1.mult(exp);
+		},
+		innerProduct: function(exp1, exp2) {
+			return exp1.dot(exp);
+		},
+		outerProduct: function(exp1, exp2) {
+			return exp1.wedge(exp2);
+		},
+		div: function(exp1, exp2) {
+			return exp1.div(exp2);
+		},
+		backdiv: function(exp1, exp2) {
+			return exp2.div(exp1);
+		},
+
+		funcall: function(name, args) {
+			return undefined;
+		}
 	};
-	
+
 	return yyobj;
 }();
-exports.yy = yy;
