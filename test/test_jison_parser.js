@@ -5,6 +5,7 @@ exports.testRecognition = function(test) {
 	parser.yy = {
 		assignment: function (identifier, exp) {},
 		identifier: function (name) {},
+		number: parseFloat,
 
 		negate: function (exp) {},
 		conjugate: function (exp) {},
@@ -39,6 +40,7 @@ exports.testRecognition = function(test) {
 
 exports.testFuncall = function(test) {
 	parser.yy = {
+		number: parseFloat,
 		funcall: function(id, args) {
 			test.equal(id, "Pu");
 			test.deepEqual(args, ["x", 1]);
@@ -59,6 +61,7 @@ exports.testTrivialPredecence = function(test) {
 		assignment: function(id, exp) {
 			test.equal(id, "ans");
 		},
+		number: parseFloat,
 		negate: function(exp) {
 			return -exp;
 		},

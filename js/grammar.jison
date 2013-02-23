@@ -39,9 +39,9 @@
 %%
 statement
 	: exp opt-ws EOF
-	   -> yy.assignment("ans", $exp)
+	   { return yy.assignment("ans", $exp); }
 	| identifier ASSIGN exp opt-ws EOF
-	   -> yy.assignment($identifier, $exp)
+	   { return yy.assignment($identifier, $exp); }
         ;
 
 opt-ws
@@ -57,7 +57,7 @@ identifier
 	;
 
 number
-	: NUMBER -> parseFloat(yytext)
+	: NUMBER -> yy.number(yytext)
 	;
 
 // NOTE collected in reverse order, flipped in exp
