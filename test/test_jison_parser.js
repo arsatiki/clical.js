@@ -36,8 +36,12 @@ exports.testRecognition = function(test) {
 	parser.parse("x / y + 1");
 	parser.parse("Pu(x,1)");
 	// More complex stuff
+	// TODO: Perhaps have these separate
 	parser.parse("a = 2e1 (e2 + e3)");
 	parser.parse("a = 2e1 (e2 + e3) ");
+	parser.parse("a = (2e1+e2)(e2 + e3)");
+	parser.parse("e1 2");
+	parser.parse("e1 2x");
 	test.done();
 }
 

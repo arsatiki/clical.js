@@ -66,11 +66,35 @@ explist
 	  { $explist.push($exp); $$ = $explist; }
 	;
 
+concat_mult
+	: number identifier
+	  -> yy.multiply($number, $identifier)
+	| number number
+	  -> yy.multiply($number1, $number2)
+	| number paren_exp
+	  -> yy.multiply($number, $paren_exp)
+	| identifier number
+	  -> yy.multiply($number, $identifier)
+	| identifier identifier
+	  -> yy.multiply($identifier1, $identifier2)
+	// No identifier paren_exp; can be a function call
+	| paren_exp identifier
+	  -> yy.multiply($paren_exp, $identifier)
+	| paren_exp number
+	  -> yy.multiply($paren_exp, $number)
+	| paren_exp paren_exp
+	  -> yy.multiply($paren_exp1, $paren_exp2)
+	;
+
+paren_exp
+	: LPAREN exp RPAREN -> $exp
+	;
+
 exp
 	: number
 	| identifier
-	| number identifier
-	  -> yy.multiply($number, $identifier)
+	| concat_mult
+	| paren_exp
 	| exp INVOLUTION
 	  -> yy.involute($exp)
 	| exp CONJUGATE
@@ -79,7 +103,6 @@ exp
 	  -> yy.negate($exp)
 	| exp WS exp // a multiplication; TODO
 	  -> yy.multiply($exp1, $exp2);
-	| LPAREN exp RPAREN -> $exp
 
 	| exp PLUS exp
 	   -> yy.add($exp1,$exp2)
