@@ -67,7 +67,6 @@ function handle_input(event) {
 	var item = $("<li/>");
 	var entry = $("<kbd/>").append("> " + value);
 	var statement = evaluator(value);
-	console.log(statement);
 	var output = toMathML(statement.var, statement.val);
 	item.append(entry).append(output);
 
