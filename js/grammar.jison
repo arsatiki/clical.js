@@ -81,23 +81,23 @@ exp
 	  -> yy.multiply($exp1, $exp2);
 	| LPAREN exp RPAREN -> $exp
 
-        | exp PLUS exp
+	| exp PLUS exp
 	   -> yy.add($exp1,$exp2)
-        | exp MINUS exp
+	| exp MINUS exp
 	   -> yy.subtract($exp1,$exp2)
-        | exp POWER exp
+	| exp POWER exp
 	   -> yy.power($exp1,$exp2)
-        | exp OUTER_POWER exp
+	| exp OUTER_POWER exp
 	   -> yy.outerPower($exp1,$exp2)
-        | exp PRODUCT exp
+	| exp PRODUCT exp
 	   -> yy.multiply($exp1,$exp2)
-        | exp INNER exp
+	| exp INNER exp
 	   -> yy.innerProduct($exp1,$exp2)
-        | exp OUTER exp
+	| exp OUTER exp
 	   -> yy.outerProduct($exp1,$exp2)
-        | exp DIV exp
+	| exp DIV exp
 	   -> yy.div($exp1,$exp2)
-        | exp BACKDIV exp
+	| exp BACKDIV exp
 	   -> yy.backdiv($exp1,$exp2)
 
 	| identifier LPAREN explist RPAREN
