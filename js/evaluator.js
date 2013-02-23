@@ -1,12 +1,27 @@
 var evaluator = function() {
 	var global_scope = {};
 
+	function looksLikeBase(identifier) {
+		return /e\d+/.test(identifier);
+	}
+	function parseBase(base) {
+		var k, b = [];
+		for (k=1; k < base.length; k++) {
+			sub = base.substring(k, k+1);
+			b.push(parseInt(sub));
+		}
+		return b;
+	}
+
 	var yyobj = {
 		assignment: function (identifier, exp) {
 			global_scope[identifier] = exp;
 			return {'var': identifier, 'val': exp};
 		},
 		identifier: function (name) {
+			if (looksLikeBase(name))
+				return e(parseBase(name));
+			
 			return global_scope[name];
 		},
 		number: function(n) {
