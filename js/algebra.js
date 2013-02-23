@@ -97,74 +97,77 @@ function Multivector(terms) {
 	this.terms.sort(Term.cmp);
 }
 
-Multivector.prototype.toString = function() {
-	var k, items = [];
-	for (k = 0; k < this.terms.length; k++)
-		items.push("(" + this.terms[k] + ")");
+Multivector.prototype = {
+	// Output formatting
+	toString: function() {
+		var k, items = [];
+		for (k = 0; k < this.terms.length; k++)
+			items.push("(" + this.terms[k] + ")");
+		return items.join(" + ");
+	},
 
-	return items.join(" + ");
-};
-
-Multivector.prototype.outputFormat = function() {
-	function formatTerm(t) {
-		return {
-			coefficient: t.coefficient,
-			sign: t.coefficient >= 0? '+': '-',
-			magnitude: Math.abs(t.coefficient),
-			dimensions: t.dimensions
+	outputFormat: function() {
+		var f, t, k, out = [];
+		for (k=0; k < this.terms.length; k++) {
+			t = this.terms[k];
+			f = {
+				coefficient: t.coefficient,
+				sign: t.coefficient >= 0? '+': '-',
+				magnitude: Math.abs(t.coefficient),
+				dimensions: t.dimensions
+			};
+			out.push(f);
 		}
-	}
+		return out;
+	},
+
+	// Operations for all multivectors
+	plus: function(other) {
+		return new Multivector(this.terms.concat(other.terms));
+	},
+	minus: function(other) { return this.plus(other.neg()); },
+	neg: function() {
+		var k, terms = [];
+		for (k = 0; k < this.terms.length; k++)
+			terms.push(this.terms[k].neg());
+
+		return new Multivector(terms);
+	},
+	mult: function(other) {
+		return this._scaledGeometricProduct(1, other);
+	},
 	
-	var k, out = [];
-	for (k=0; k < this.terms.length; k++)
-		out.push(formatTerm(this.terms[k]));
-	return out;
-};
+	// Operations for primarily vectors
+	// The vectorness isn't strictly enforced at this point
+	dot: function(that) {
+		var AB = this._scaledGeometricProduct(1/2, that);
+		var BA = that._scaledGeometricProduct(1/2, this);
+		return AB.plus(BA);
+	},
+	wedge: function(that) {
+		var AB = this._scaledGeometricProduct(1/2, that);
+		var _BA = that._scaledGeometricProduct(-1/2, this);
+		return AB.plus(_BA);
+	},
+	div: function(that) {
+		// TODO FIX
+		var norm = that.dot(that).terms[0].coefficient;
+		return this._scaledGeometricProduct(1/norm, that);
+	},
 
-Multivector.prototype.plus = function(other) {
-	return new Multivector(this.terms.concat(other.terms));
-}
-Multivector.prototype.minus = function(other) {
-	return this.plus(other.neg());
-}
-Multivector.prototype.neg = function() {
-	var k, terms = [];
-	for (k = 0; k < this.terms.length; k++)
-		terms.push(this.terms[k].neg());
-
-	return new Multivector(terms);
-}
-Multivector.prototype.scaledGeometricProduct = function(scale, other) {
-	var i, j, terms = [], a, b;
-	for (i = 0; i < this.terms.length; i++) {
-		a = this.terms[i];
-		for (j = 0; j < other.terms.length; j++) {
-			b = other.terms[j];
-			terms.push(a.multiply(scale, b));
+	// Internal implementations
+	// Prefix these methods with _
+	_scaledGeometricProduct: function(scale, other) {
+		var i, j, terms = [], a, b;
+		for (i = 0; i < this.terms.length; i++) {
+			a = this.terms[i];
+			for (j = 0; j < other.terms.length; j++) {
+				b = other.terms[j];
+				terms.push(a.multiply(scale, b));
+			}
 		}
-	}
-	return new Multivector(terms);
-};
-Multivector.prototype.mult = function(other) {
-	return this.scaledGeometricProduct(1, other);
-};
-
-// Operations for primarily vectors
-// The vectorness isn't strictly enforced at this point
-Multivector.prototype.dot = function(that) {
-	var AB = this.scaledGeometricProduct(1/2, that);
-	var BA = that.scaledGeometricProduct(1/2, this);
-	return AB.plus(BA);
-};
-Multivector.prototype.wedge = function(that) {
-	var AB = this.scaledGeometricProduct(1/2, that);
-	var _BA = that.scaledGeometricProduct(-1/2, this);
-	return AB.plus(_BA);
-};
-Multivector.prototype.div = function(that) {
-	// TODO FIX
-	var norm = that.dot(that).terms[0].coefficient;
-	return this.scaledGeometricProduct(1/norm, that);
+		return new Multivector(terms);
+	},
 };
 
 
