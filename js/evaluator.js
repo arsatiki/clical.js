@@ -9,6 +9,9 @@ var evaluator = function() {
 		identifier: function (name) {
 			return global_scope[name];
 		},
+		number: function(n) {
+			return s(parseFloat(n));
+		},
 
 		negate: function (exp) { return exp.neg(); },
 
