@@ -38,7 +38,8 @@
 
 %%
 statement
-	: exp opt-ws EOF -> $exp
+	: exp opt-ws EOF
+	   -> yy.assignment("ans", $exp)
 	| identifier ASSIGN exp opt-ws EOF
 	   -> yy.assignment($identifier, $exp)
         ;

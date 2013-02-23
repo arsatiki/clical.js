@@ -1,16 +1,16 @@
-var yy = function() {
+var evaluator = function() {
 	var global_scope = {};
 
 	var yyobj = {
 		assignment: function (identifier, exp) {
 			global_scope[identifier] = exp;
+			return {'var': identifier, 'val': exp};
 		},
 		identifier: function (name) {
 			return global_scope[identifier];
 		},
 
-		negate: function (exp) { return exp.neg(); }
-		},
+		negate: function (exp) { return exp.neg(); },
 
 		conjugate: function (exp) {return undefined;},
 		involute: function (exp) {return undefined;},
@@ -45,5 +45,10 @@ var yy = function() {
 		}
 	};
 
-	return yyobj;
+	function parse() {
+		grammar.yy = yyobj;
+		return grammar.parse(input);
+	}
+
+	return parse;
 }();
