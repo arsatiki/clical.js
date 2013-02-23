@@ -2,12 +2,28 @@ var exports = exports || {};
 var require = require || function() {};
 var permutations = permutations || require("./permutations.js");
 
-function Term(coefficient, dimensions) {
-	this.coefficient = coefficient;
-	this.dimensions = dimensions.slice(0);
+function simplifyProduct(dimensions) {
+	// Assume sorted input.
+	// Assume that every e_i^2 = 1.
+	var k = 0, out = [];
+	while (k < dimensions.length) {
+		if (k + 1 < dimensions.length && dimensions[k] == dimensions[k+1]) {
+			k = k + 2;
+			continue;
+		}
+		out.push(dimensions[k]);
+		k++;
+	}
+	return out;
+}
 
-	var n = permutations.swaps(this.dimensions);
+function Term(coefficient, dims) {
+	var dimensions = dims.slice(0);
+	this.coefficient = coefficient;
+
+	var n = permutations.swaps(dimensions);
 	this.coefficient *= n;
+	this.dimensions = simplifyProduct(dimensions);
 }
 
 Term.prototype.toString = function() {
@@ -17,9 +33,15 @@ Term.prototype.toString = function() {
 Term.prototype.vanishes = function() { return this.coefficient == 0; };
 Term.prototype.neg = function () {
 	return new Term(-this.coefficient, this.dimensions);
-}
+};
+Term.prototype.multiply = function(scale, other) {
+	var c, dims;
+	c = scale * this.coefficient * other.coefficient;
+	dims = this.dimensions.concat(other.dimensions);
+	return new Term(c, dims);
+};
 
-Term.combine_bases = function (terms) {
+Term.simplifySum = function (terms) {
 	var k, coeffs = {};
 	var key, value;
 	var combined = [];
@@ -59,7 +81,7 @@ Term.cmp = function(a, b) {
 function Multivector(terms) {
 	var k;
 	this.terms = [];
-	terms = Term.combine_bases(terms);
+	terms = Term.simplifySum(terms);
 
 	for (k = 0; k < terms.length; k++)
 		if (!terms[k].vanishes())
@@ -109,6 +131,38 @@ Multivector.prototype.neg = function() {
 
 	return new Multivector(terms);
 }
+Multivector.prototype.scaledGeometricProduct = function(scale, other) {
+	var i, j, terms = [], a, b;
+	for (i = 0; i < this.terms.length; i++) {
+		a = this.terms[i];
+		for (j = 0; j < other.terms.length; j++) {
+			b = other.terms[j];
+			terms.push(a.multiply(scale, b));
+		}
+	}
+	return new Multivector(terms);
+};
+Multivector.prototype.mult = function(other) {
+	return this.scaledGeometricProduct(1, other);
+};
+
+// Operations for primarily vectors
+// The vectorness isn't strictly enforced at this point
+Multivector.prototype.dot = function(that) {
+	var AB = this.scaledGeometricProduct(1/2, that);
+	var BA = that.scaledGeometricProduct(1/2, this);
+	return AB.plus(BA);
+};
+Multivector.prototype.wedge = function(that) {
+	var AB = this.scaledGeometricProduct(1/2, that);
+	var _BA = that.scaledGeometricProduct(-1/2, this);
+	return AB.plus(_BA);
+};
+Multivector.prototype.div = function(that) {
+	// TODO FIX
+	var norm = that.dot(that).terms[0].coefficient;
+	return this.scaledGeometricProduct(1/norm, that);
+};
 
 
 /* Helper function for creating vectors */
@@ -131,7 +185,8 @@ function s(coefficient) {
 var algebra = {
 	Multivector: Multivector,
 	v: v,
-	s: s
+	s: s,
+	simplifyProduct: simplifyProduct
 };
 
 
