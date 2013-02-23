@@ -77,3 +77,21 @@ exports.testTrivialPredecence = function(test) {
 	parser.parse("1 + -1 * 5");
 	test.done();
 }
+
+exports.testWhitespaceMultiplication = function(test) {
+	parser.yy = {
+		number: parseFloat,
+		assignment: function() {},
+		add: function(exp1, exp2) {
+			var result = exp1 + exp2;
+			test.equal(result, 7);
+			return result;
+		},
+		multiply: function(exp1, exp2) {
+			return exp1 * exp2;
+		}
+	}
+	parser.parse("2 3 + 1");
+	test.done();
+
+}
