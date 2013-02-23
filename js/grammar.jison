@@ -40,8 +40,8 @@
 statement
 	: exp opt-ws EOF
 	   { return yy.assignment("ans", $exp); }
-	| identifier ASSIGN exp opt-ws EOF
-	   { return yy.assignment($identifier, $exp); }
+	| $ID ASSIGN exp opt-ws EOF
+	   { return yy.assignment($ID, $exp); }
         ;
 
 opt-ws
