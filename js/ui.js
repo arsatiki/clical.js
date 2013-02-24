@@ -12,17 +12,18 @@ function mn(n) { return createMathElementAndText("mn", n); }
 function mo(op) { return createMathElementAndText("mo", op); }
 function mi(id) { return createMathElementAndText("mi", id); }
 
-function appendTerm(parent, coeff, bases) {
-	var c, e, b, sub;
+function appendTerm(parent, sign, magnitude, bases) {
+	var coeff, e, b, sub;
 	
-	if (coeff != 1 || bases.length == 0) {
-		c = mn(coeff);
-		parent.appendChild(c);
-	}
+	var omit_number = (magnitude == 1 && bases.length > 0);
+	coeff = omit_number? sign: sign + magnitude;
+	
+	if (coeff)
+		parent.appendChild(mn(coeff));
 	
 	if (bases.length > 0) {
 		e = mi("e");
-		b = mn(bases);
+		b = mn(bases.join(""));
 		sub = createMathElement("msub");
 
 		parent.appendChild(sub);
@@ -31,50 +32,48 @@ function appendTerm(parent, coeff, bases) {
 	}
 }
 
-function toMathML(mv) {
-	var k, t, c, combining_op;
+function toMathML(variable, mv) {
+	var k, t;
+	var mvList = mv.outputFormat();
 
-	var NS = "";
 	var math = createMathElement("math");
 	var mrow = createMathElement("mrow");
 	math.appendChild(mrow);
 
-	mrow.appendChild(mi("ans"));
+	mrow.appendChild(mi(variable));
 	mrow.appendChild(mo("="));
+
+	t = mvList[0];
+	if (t.sign == '+')
+		t.sign = "";
 	
-	for (k=0; k < mv.terms.length; k++) {
-		t = mv.terms[k];
-		c = t.coefficient;
-		if (k > 0) {
-			combining_op = '+';
-			if (c < 0) {
-				c = -c;
-				combining_op = "-";
-			}
-			mrow.appendChild(mo(combining_op));
-		}
-		appendTerm(mrow, c, t.dimensions.join(""));
+	appendTerm(mrow, t.sign, t.magnitude, t.dimensions);
+
+	for (k=1; k < mvList.length; k++) {
+		t = mvList[k];
+
+		mrow.appendChild(mo(t.sign));
+		appendTerm(mrow, "", t.magnitude, t.dimensions);
 	}
 
 	return math;
 }
 
-function eval_input(input) {
-	var ts = lookahead(lexer(input));
-	return evalExpression(ts);
-}
 
 function handle_input(event) {
 	var value = event.target.value;
 	event.target.value = "";
+	var statement = evaluator(value);
 	
-	var item = $("<li/>");
+	var row = $("<li/>");
 	var entry = $("<kbd/>").append("> " + value);
-	var ans = toMathML(eval_input(value));
-	item.append(entry).append(ans);
 
-	$("#results").append(item);
-	MathJax.Hub.Queue(["Typeset", MathJax.Hub, item.get(0)]);
+	row.append(entry);
+	if (!statement.silent)
+		row.append(toMathML(statement.var, statement.val));
+
+	$("#results").append(row);
+	MathJax.Hub.Queue(["Typeset", MathJax.Hub, row.get(0)]);
 
 	event.stopPropagation();
 }

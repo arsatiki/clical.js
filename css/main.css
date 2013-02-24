@@ -14,6 +14,8 @@ ul#results {
 
 #results kbd {
 	display: block;
+	font-family: Consolas, Inconsolata, monospace;
+	
 }
 
 #input {
