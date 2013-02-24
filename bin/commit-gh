@@ -1,0 +1,11 @@
+#!/bin/bash
+FILES="index.html css/* js/*.js"
+
+export GIT_INDEX_FILE=.git/gh-pages-index
+rm $GIT_INDEX_FILE
+export GH_HEAD=$(git rev-parse refs/heads/gh-pages)
+git update-index --add $FILES
+export TREE=$(git write-tree)
+export GH_NEWHEAD=$(git describe --tags|git commit-tree $TREE -p $GH_HEAD)
+git update-ref refs/heads/gh-pages $GH_NEWHEAD
+
