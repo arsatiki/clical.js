@@ -4,7 +4,7 @@ VERSION=$(git describe --tags)
 GH_HEAD=$(git rev-parse refs/heads/gh-pages)
 
 # TODO move to a seprate build step
-bin/version_css $VERSION > css/_version_.css
+bin/version_css $VERSION > css/version.css
 
 export GIT_INDEX_FILE=$(git rev-parse --git-dir)/gh-pages-index
 rm -f $GIT_INDEX_FILE
