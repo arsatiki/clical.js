@@ -3,10 +3,13 @@ FILES="index.html css/* js/*.js"
 VERSION=$(git describe --tags)
 GH_HEAD=$(git rev-parse refs/heads/gh-pages)
 
+# TODO move to a seprate build step
+bin/version_css $VERSION > css/_version_.css
+
 export GIT_INDEX_FILE=$(git rev-parse --git-dir)/gh-pages-index
-rm $GIT_INDEX_FILE
+rm -f $GIT_INDEX_FILE
 git update-index --add $FILES
 TREE=$(git write-tree)
-GH_NEWHEAD=$(git commit-tree -m "$VERSION" -p $GH_HEAD $TREE)
+GH_NEWHEAD=$(echo $VERSION|git commit-tree $TREE -p $GH_HEAD)
 git update-ref refs/heads/gh-pages $GH_NEWHEAD
 

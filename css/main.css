@@ -22,3 +22,12 @@ ul#results {
 	margin-top: 1.5em;
 	width: 100%;
 }
+
+#_version_ {
+    position: absolute;
+    bottom: .33em;
+    right: 0.5em;
+    font-family: Consolas, Inconsolata, monospace;
+    color: #777;
+    font-size: 75%;
+}
