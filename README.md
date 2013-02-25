@@ -26,6 +26,8 @@ Helsinki University of Technology in 1987. From the [original documentation][ori
 > CLICAL is intended for researchers and teachers of Clifford algebras
 > and spinors.
 
+[original]: http://users.tkk.fi/ppuska/mirror/Lounesto/CLICAL.htm
+
 Why re-implement it?
 ====================
 
@@ -45,6 +47,22 @@ the _GUIDE_ file distributed with the original:
 
 Indeed I have a color monitor!
 
+Goals
+=====
+
+The primary goal is to provide an easily accessible tool for people not familiar with
+Cliffor algebras. Specifically, performance is a bit of a non-concern. It is for exploration,
+for toying and for 
+
+For "production use," whatever that may mean, this is probably not a good tool.
+Consider other tools, such as:
+
+- [GluCat][glucat]
+- [SymPy][sympy]
+
+[glucat]: http://glucat.sourceforge.net/
+[sympy]: http://docs.sympy.org/0.7.0/modules/galgebra/GA/GAsympy.html
+
 Current status
 ==============
 
@@ -63,5 +81,3 @@ Other information
 Target environment is HTML5 compatible browser.
 
 Some initial prototyping is done with Python.
-
-[original]: http://users.tkk.fi/ppuska/mirror/Lounesto/CLICAL.htm
