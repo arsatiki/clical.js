@@ -1,7 +1,7 @@
 #!/bin/bash
 FILES="index.html css/* js/*.js"
 
-export GIT_INDEX_FILE=.git/gh-pages-index
+export GIT_INDEX_FILE=$(git rev-parse --git-dir)/gh-pages-index
 rm $GIT_INDEX_FILE
 export GH_HEAD=$(git rev-parse refs/heads/gh-pages)
 git update-index --add $FILES
