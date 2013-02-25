@@ -51,7 +51,7 @@ Goals
 =====
 
 The primary goal is to provide an easily accessible tool for people not familiar with
-Cliffor algebras. Specifically, performance is a bit of a non-concern. It is for exploration,
+Clifford algebras. Specifically, performance is a bit of a non-concern. It is for exploration,
 for toying and for 
 
 For "production use," whatever that may mean, this is probably not a good tool.
