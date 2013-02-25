@@ -1,9 +1,9 @@
 To contribute, pick an issue or look through the source code. Then mail me a patch or file a pull request.
 
-Before you do that, please read Goals and Practices sections below.
+Before you do that, please read Roadmap and Practices sections below.
 
-Goals
-=====
+Roadmap
+=======
 
 For the 1.0 release, the purpose is to replicate the functionality of the original Clical. Well, up to a point anyway. The browser is a different environment to 286 computers of the last millennium.
 
@@ -59,4 +59,5 @@ Library documentation
 ---------------------
 
 - nodeunit: https://github.com/caolan/nodeunit#readme
+- Jison: http://zaach.github.com/jison/docs/
 - MathJax: http://docs.mathjax.org/en/latest/
