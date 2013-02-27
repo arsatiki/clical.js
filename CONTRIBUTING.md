@@ -41,8 +41,8 @@ Syntax
 - tabs are tabs
 - camelCase names
 
-Development
------------
+Running and writing tests
+-------------------------
 
 The development environment for the Javascript libraries requires Node and
 npm. After installing those, run
@@ -50,7 +50,7 @@ npm. After installing those, run
     npm link
     make unittest
 
-Tests go to tests subdirectory.
+Unit tests go to `test` subdirectory.
 
 For UI tests, you will need CasperJS. Then run
 
@@ -59,6 +59,8 @@ For UI tests, you will need CasperJS. Then run
 To run all tests, run
 
     make test
+
+UI tests are written in Coffeescript and go to `test/ui` subdirectory.
 
 Reference
 =========
