@@ -16,6 +16,6 @@ unittest: ${ARTEFACTS} js/*.js test/*.js
 	${BIN}/nodeunit --reporter minimal test
 
 uitest: ${ARTEFACTS}
-	echo "No UI tests yet"
+	casperjs test test/ui
 
 .PHONY: all clean test unittest uitest

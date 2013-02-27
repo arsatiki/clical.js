@@ -48,9 +48,17 @@ The development environment for the Javascript libraries requires Node and
 npm. After installing those, run
 
     npm link
-    npm -s test (or npm config set loglevel silent)
+    make unittest
 
 Tests go to tests subdirectory.
+
+For UI tests, you will need CasperJS. Then run
+
+    make uitest
+
+To run all tests, run
+
+    make test
 
 Reference
 =========
@@ -61,3 +69,4 @@ Library documentation
 - nodeunit: https://github.com/caolan/nodeunit#readme
 - Jison: http://zaach.github.com/jison/docs/
 - MathJax: http://docs.mathjax.org/en/latest/
+- CasperJS: http://casperjs.org/testing.html
