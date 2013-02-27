@@ -2,3 +2,8 @@ language: node_js
 node_js:
     - "0.8"
 
+before_script:
+  - curl -L https://github.com/n1k0/casperjs/tarball/1.0.2 | tar xzf - 
+  - export PATH=$PATH:`pwd`/n1k0-casperjs-*/bin
+  - casperjs --version || true
+
