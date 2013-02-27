@@ -1,4 +1,6 @@
-var exports = exports || {};
+if (typeof module === "undefined")
+	module = {exports: {}};
+
 var require = require || function() {};
 var permutations = permutations || require("./permutations.js");
 
@@ -207,4 +209,4 @@ return visible;
 
 for (p in algebra)
 	if (algebra.hasOwnProperty(p))
-		exports[p] = algebra[p];
+		module.exports[p] = algebra[p];

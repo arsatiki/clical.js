@@ -21,8 +21,10 @@ var permutations = {
 };
 
 // Exports for node
-var exports = exports || {};
+if (typeof module === "undefined")
+	module = {exports: {}};
+
 for (p in permutations)
 	if (permutations.hasOwnProperty(p))
-		exports[p] = permutations[p];
+		module.exports[p] = permutations[p];
 
