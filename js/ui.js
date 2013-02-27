@@ -61,8 +61,12 @@ function toMathML(variable, mv) {
 
 
 function handle_input(event) {
-	var value = event.target.value;
-	event.target.value = "";
+	event.preventDefault();
+	var form = event.target;
+	var field = form.elements.namedItem("input");
+	var value = field.value;
+	field.value = "";
+
 	var statement = evaluator(value);
 	
 	var row = $("<li/>");
@@ -76,10 +80,9 @@ function handle_input(event) {
 
 	$("#results").append(row);
 	MathJax.Hub.Queue(["Typeset", MathJax.Hub, row.get(0)]);
-
-	event.stopPropagation();
 }
 
 $(function () {
-	$("#input").on("change", handle_input);
+	$("#input-wrapper").on("submit", handle_input);
+	
 });
