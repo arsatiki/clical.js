@@ -3,8 +3,8 @@ node_js:
     - "0.8"
 
 before_script:
-  - curl -L https://github.com/n1k0/casperjs/tarball/1.0.2 | tar xzf - 
-  - ls
-  - export PATH=$PATH:`pwd`/n1k0-casperjs-*/bin
+  - mkdir casperjs
+  - curl -L https://github.com/n1k0/casperjs/tarball/1.0.2 | tar xzf - --strip-components=1 -C casperjs
+  - export PATH=$PATH:casperjs/bin
   - casperjs --version || true
 
