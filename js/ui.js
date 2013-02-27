@@ -69,6 +69,8 @@ function handle_input(event) {
 	var entry = $("<kbd/>").append("> " + value);
 
 	row.append(entry);
+	row.get(0).dataset.ans = statement.val;
+	
 	if (!statement.silent)
 		row.append(toMathML(statement.var, statement.val));
 
