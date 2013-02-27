@@ -19,8 +19,8 @@
   "private": true,
   "optionalDependencies": {},
   "scripts": {
-    "pretest": "jison --outfile js/grammar.js js/grammar.jison",
-    "test": "nodeunit --reporter minimal test"
+    "pretest": "make -s all",
+    "test": "make -s test"
   },
   "main": "./js/main.js"
 }
