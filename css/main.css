@@ -22,12 +22,12 @@ ul#results {
 	
 }
 
-#input {
+#command-line input {
 	margin-top: 1.5em;
 	width: 100%;
 }
 
-#input-wrapper button { display: none; }
+#command-line button { display: none; }
 
 #_version_ {
     position: absolute;

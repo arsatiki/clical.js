@@ -63,7 +63,7 @@ function toMathML(variable, mv) {
 function handle_input(event) {
 	event.preventDefault();
 	var form = event.target;
-	var field = form.elements.namedItem("input");
+	var field = form.elements.namedItem("user-entry");
 	var value = field.value;
 	field.value = "";
 
@@ -83,6 +83,6 @@ function handle_input(event) {
 }
 
 $(function () {
-	$("#input-wrapper").on("submit", handle_input);
+	$("#command-line").on("submit", handle_input);
 	
 });

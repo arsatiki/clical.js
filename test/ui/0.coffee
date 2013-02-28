@@ -3,12 +3,13 @@ casper = require('casper').create({verbose: true})
 
 casper.start 'index.html', ->
 	@test.assertTitle 'Calculator'
-	@test.assertSelectorExists '#input', "Input field present"
+	@test.assertSelectorExists '#command-line input[name=user-entry]',
+		                   "Input field present"
 	@test.assertSelectorExists '#results', "Results present"
 
 casper.then ->
-	@fill '#input-wrapper', {'input': '1+1'}, no
-	@click '#input-wrapper button'
+	@fill '#command-line', {'user-entry': '1+1'}, no
+	@click '#command-line button'
 	
 casper.waitForSelector '#results li', null, null, 10000
 
