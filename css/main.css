@@ -1,3 +1,7 @@
+body {
+	background: white;
+}
+
 ul#results {
 	list-style-type: none;
 }
