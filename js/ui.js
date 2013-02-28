@@ -61,7 +61,7 @@ function toMathML(variable, mv) {
 	return out;
 }
 
-
+// TODO: Needs refactoring
 function handle_input(event) {
 	event.preventDefault();
 	var form = event.target;
