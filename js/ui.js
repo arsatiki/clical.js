@@ -36,8 +36,10 @@ function toMathML(variable, mv) {
 	var k, t;
 	var mvList = mv.outputFormat();
 
+	var out = document.createElement("output");
 	var math = createMathElement("math");
 	var mrow = createMathElement("mrow");
+	out.appendChild(math);
 	math.appendChild(mrow);
 
 	mrow.appendChild(mi(variable));
@@ -56,7 +58,7 @@ function toMathML(variable, mv) {
 		appendTerm(mrow, "", t.magnitude, t.dimensions);
 	}
 
-	return math;
+	return out;
 }
 
 
@@ -75,8 +77,11 @@ function handle_input(event) {
 	row.append(entry);
 	row.get(0).dataset.ans = statement.val;
 	
-	if (!statement.silent)
-		row.append(toMathML(statement.var, statement.val));
+	if (!statement.silent) {
+		var result = toMathML(statement.var, statement.val);
+		result.setAttribute("form", form.id);
+		row.append(result);
+	}
 
 	$("#results").append(row);
 	MathJax.Hub.Queue(["Typeset", MathJax.Hub, row.get(0)]);
