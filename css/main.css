@@ -23,6 +23,8 @@ ul#results {
 	width: 100%;
 }
 
+#input-wrapper button { display: none; }
+
 #_version_ {
     position: absolute;
     bottom: .33em;

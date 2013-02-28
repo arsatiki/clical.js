@@ -7,15 +7,19 @@ casper.start 'index.html', ->
 	@test.assertSelectorExists '#results', "Results present"
 
 casper.then ->
-	@fill('#input-wrapper', {'input': '1+1'}, yes)
+	@fill '#input-wrapper', {'input': '1+1'}, no
+	@click '#input-wrapper button'
 	
-casper.waitForSelector '#results li'
+casper.waitForSelector '#results li', null, null, 10000
 
 casper.then ->
-	@capture 'wut.png'
+	@test.assertEvalEquals(->
+		e = __utils__.findOne('#results li:last-child')
+		e.dataset.ans
+	, '(2 e)', 'Simple addition works'	
+	)
 
 casper.run ->
-	@test.done(4)
 	@test.renderResults yes
 	@exit()
 
