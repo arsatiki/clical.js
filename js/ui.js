@@ -61,6 +61,26 @@ function toMathML(variable, mv) {
 	return out;
 }
 
+function isCommand(entry) {
+	return false;
+}
+
+function handleCommand(entry) {
+	return;
+}
+
+function handleStatement(entry, row_el, source) {
+	var statement = evaluator(entry);
+
+	row_el.dataset.ans = statement.val;
+	
+	if (!statement.silent) {
+		var result = toMathML(statement.var, statement.val);
+		result.setAttribute("form", source);
+		return result;
+	}
+}
+
 function readEntry(event) {
 	event.preventDefault();
 	var form = event.target;
@@ -72,23 +92,22 @@ function readEntry(event) {
 
 // TODO: Needs refactoring
 function handle_input(event) {
-	var value = readEntry(event);
-
-	var statement = evaluator(value);
-	
+	var entry = readEntry(event);
 	var row = $("<li/>");
-	var entry = $("<kbd/>").append("> " + value);
+	var output;
 
-	row.append(entry);
-	row.get(0).dataset.ans = statement.val;
-	
-	if (!statement.silent) {
-		var result = toMathML(statement.var, statement.val);
-		result.setAttribute("form", event.target.id);
-		row.append(result);
-	}
-
+	var userecho = $("<kbd/>").append("> " + entry);
+	row.append(userecho);
 	$("#results").append(row);
+
+	if (isCommand(entry))
+		output = handleCommand(entry);
+	else
+		output = handleStatement(entry, row.get(0), event.target);
+
+	if (output)
+		row.append(output);
+
 	MathJax.Hub.Queue(["Typeset", MathJax.Hub, row.get(0)]);
 }
 
