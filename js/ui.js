@@ -90,25 +90,31 @@ function readEntry(event) {
 	return value;
 }
 
+function fmtUserEcho(entry) {
+	var kbd = document.createElement("kbd");
+	kbd.appendChild(document.createTextNode("> " + entry));
+	return kbd;
+}
+
 // TODO: Needs refactoring
 function handle_input(event) {
 	var entry = readEntry(event);
-	var row = $("<li/>");
+	var results = document.getElementById("results");
+	var row = document.createElement("li");
 	var output;
 
-	var userecho = $("<kbd/>").append("> " + entry);
-	row.append(userecho);
-	$("#results").append(row);
+	results.appendChild(row);
+	row.appendChild(fmtUserEcho(entry));
 
 	if (isCommand(entry))
 		output = handleCommand(entry);
 	else
-		output = handleStatement(entry, row.get(0), event.target);
+		output = handleStatement(entry, row, event.target.id);
 
-	if (output)
-		row.append(output);
-
-	MathJax.Hub.Queue(["Typeset", MathJax.Hub, row.get(0)]);
+	if (output) {
+		row.appendChild(output);		
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub, output]);
+	}
 }
 
 $(function () {
