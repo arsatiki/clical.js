@@ -96,7 +96,15 @@ function fmtUserEcho(entry) {
 	return kbd;
 }
 
-// TODO: Needs refactoring
+/* TODO: Needs refactoring:
+	- handle operations have side-effects
+	  not bad as such, but needs to be thought out
+	- still mixed level operations. should be:
+	  read
+	  handle
+	  format
+	  thank you ma'am
+*/
 function handleInput(event) {
 	var entry = readEntry(event);
 	var results = document.getElementById("results");
