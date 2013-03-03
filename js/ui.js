@@ -61,13 +61,18 @@ function toMathML(variable, mv) {
 	return out;
 }
 
-// TODO: Needs refactoring
-function handle_input(event) {
+function readEntry(event) {
 	event.preventDefault();
 	var form = event.target;
 	var field = form.elements.namedItem("user-entry");
 	var value = field.value;
 	field.value = "";
+	return value;
+}
+
+// TODO: Needs refactoring
+function handle_input(event) {
+	var value = readEntry(event);
 
 	var statement = evaluator(value);
 	
@@ -79,7 +84,7 @@ function handle_input(event) {
 	
 	if (!statement.silent) {
 		var result = toMathML(statement.var, statement.val);
-		result.setAttribute("form", form.id);
+		result.setAttribute("form", event.target.id);
 		row.append(result);
 	}
 
