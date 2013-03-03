@@ -97,7 +97,7 @@ function fmtUserEcho(entry) {
 }
 
 // TODO: Needs refactoring
-function handle_input(event) {
+function handleInput(event) {
 	var entry = readEntry(event);
 	var results = document.getElementById("results");
 	var row = document.createElement("li");
@@ -116,8 +116,5 @@ function handle_input(event) {
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, output]);
 	}
 }
-
-$(function () {
-	$("#command-line").on("submit", handle_input);
-	
-});
+document.getElementById("command-line").
+	addEventListener("submit", handleInput, false);
