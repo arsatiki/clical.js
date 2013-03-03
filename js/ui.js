@@ -65,14 +65,13 @@ function isCommand(entry) {
 	return false;
 }
 
-function handleCommand(entry) {
+function handleCommand(entry, dataset) {
 	return;
 }
 
-function handleStatement(entry, row_el, source) {
+function handleStatement(entry, dataset, source) {
 	var statement = evaluator(entry);
-
-	row_el.dataset.ans = statement.val;
+	dataset.ans = statement.val;
 	
 	if (!statement.silent) {
 		var result = toMathML(statement.var, statement.val);
@@ -96,33 +95,34 @@ function fmtUserEcho(entry) {
 	return kbd;
 }
 
-/* TODO: Needs refactoring:
-	- handle operations have side-effects
-	  not bad as such, but needs to be thought out
-	- still mixed level operations. should be:
-	  read
-	  handle
-	  format
-	  thank you ma'am
-*/
-function handleInput(event) {
-	var entry = readEntry(event);
+function fmtEntryAndOutput(entry, output, dataset) {
 	var results = document.getElementById("results");
 	var row = document.createElement("li");
-	var output;
 
 	results.appendChild(row);
 	row.appendChild(fmtUserEcho(entry));
-
-	if (isCommand(entry))
-		output = handleCommand(entry);
-	else
-		output = handleStatement(entry, row, event.target.id);
 
 	if (output) {
 		row.appendChild(output);		
 		MathJax.Hub.Queue(["Typeset", MathJax.Hub, output]);
 	}
+
+	for (var k in dataset)
+		if (dataset.hasOwnProperty(k))
+			row.dataset[k] = dataset[k];
 }
+
+function handleInput(event) {
+	var entry = readEntry(event);
+	var output, dataset = {};
+
+	if (isCommand(entry))
+		output = handleCommand(entry, dataset);
+	else
+		output = handleStatement(entry, dataset, event.target.id);
+
+	fmtEntryAndOutput(entry, output, dataset);
+}
+
 document.getElementById("command-line").
 	addEventListener("submit", handleInput, false);
